@@ -2,13 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+  
+  color: #ffff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+body{
+  background-color: #06001f;
+}
+.hamburger {
+  display: flex;
+  flex-direction: column; /* Stack lines vertically */
+  justify-content: space-between;
+  cursor: pointer; /* Change cursor to pointer */
+  transition: transform 0.3s ease; /* Smooth transition */
+  gap: 4px;
+  border-radius: 5px;
+
+}
+
+.line {
+  width: 1.8rem;
+  height: 0.16rem; /* Thickness of each line */
+  background-color: #c6c6c7; /* Color of the lines */
+  transition: all 0.3s ease; /* Smooth transition for line animation */
+  border-radius: 10px;
+}
+
+/* Transform lines when open */
+.hamburger.open .line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open .line:nth-child(2) {
+  opacity: 0; /* Hide the middle line */
+}
+
+.hamburger.open .line:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.hamburger.scaleUp {
+  transform: scale(1.1);
 }
