@@ -9,7 +9,7 @@
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Blinker", sans-serif;
   line-height: 1.5;
   font-weight: 400;
   
@@ -20,8 +20,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 body{
-  background-color: #06001f;
+  background-color: #1A1A1A;
 }
+/* 
+h1,h2,h3,h4,h5,h6{
+  font-family: "New Amsterdam", sans-serif;
+}
+
+.font-protest {
+  font-family: "Teko", sans-serif;
+
+} */
+
 .hamburger {
   display: flex;
   flex-direction: column; /* Stack lines vertically */
@@ -56,4 +66,13 @@ body{
 
 .hamburger.scaleUp {
   transform: scale(1.1);
+}
+
+.blue-light-effect {
+  position: absolute; /* Positioning for the light effect */
+  width: 1000px;
+  height: 1000px;
+  background: radial-gradient(circle, rgba(0, 0, 255, 0.2) 0%, rgba(0, 0, 255, 0) 70%); /* Blue light effect */
+  pointer-events: none; /* Prevent interaction with the overlay */
+  z-index: -1; /* Place behind other content */
 }

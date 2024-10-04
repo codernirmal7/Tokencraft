@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { cn } from "./lib/utils";
 import { Link } from "react-router-dom";
 import NavbarMobile from "./NavbarMobile";
-export default function Navbar({ className }) {
+export default function Navbar({  }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -11,15 +11,14 @@ export default function Navbar({ className }) {
   return (
     <>
       <header
-        className={cn(
-          "fixed top-0 inset-x-0 w-full z-50  py-5 border-b bg-[#0a061d] border-white/[0.2]",
-          className
-        )}
+        className={`fixed top-0  w-full z-50  py-3 bg-transparent ${
+           isOpen? "" : "bg-opacity-90"
+        }`}
       >
-        <div className="w-full max-w-[1400px] flex mx-auto justify-between min-[900px]:justify-around items-center px-5">
+        <div className="w-full max-w-[1200px] flex mx-auto justify-between min-[900px]:justify-around items-center px-5">
           <div>
-            <a href="/" className=" text-2xl font-extrabold">
-              Token<span className="text-primary">craft.</span>
+            <a href="/" className=" text-2xl min-[900px]:text-3xl select-none font-extrabold font-protest">
+              Token<span className="bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text">craft.</span>
             </a>
           </div>
           <nav className="min-[900px]:flex hidden">
@@ -52,7 +51,7 @@ export default function Navbar({ className }) {
             </ul>
           </nav>
           <div className="flex items-center gap-4">
-            <button className="bg-primary text-white px-2 py-2 rounded-lg font-medium text-sm hover:bg-primary/85 flex items-center gap-1">
+            <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-sm text-white font-bold py-2 px-2 rounded-lg shadow-lg hover:from-purple-600 hover:to-blue-600 flex items-center gap-1">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -80,7 +79,7 @@ export default function Navbar({ className }) {
             </button>
 
             <div
-              className={`hamburger min-[900px]:hidden ${
+              className={`hamburger min-[900px]:hidden  ${
                 isOpen ? "open scaleUp" : ""
               } bg-[#2f2f33] px-2 py-3`}
               onClick={toggleMenu}
@@ -92,7 +91,6 @@ export default function Navbar({ className }) {
           </div>
         </div>
       </header>
-
       <NavbarMobile isOpen={isOpen} />
     </>
   );

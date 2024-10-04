@@ -5,11 +5,16 @@ export default function NavbarMobile({ isOpen }) {
   return (
     <>
       <nav
-        className={`w-full flex px-5 flex-col fixed top-20 z-40 min-[900px]:-translate-y-full ${
-          isOpen ? "" : "-translate-y-full"
-        } transition-all bg-[#0a061d] h-screen py-9`}
+        className={`w-[350px]  flex px-5 flex-col fixed top-0 z-[60]  ${
+          isOpen ? "" : "-translate-x-full"
+        } transition-all bg-gradient-to-r from-black to-black h-screen py-5 border-r border-primary/[0.2]`}
       >
-        <ul className="flex flex-col gap-7 ">
+         <div>
+            <a href="/" className=" text-2xl min-[900px]:text-3xl select-none font-extrabold font-protest">
+              Token<span className="bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text">craft.</span>
+            </a>
+          </div>
+        <ul className="flex flex-col gap-7 mt-8">
           <li>
             <Link
               to="/staking"
@@ -38,7 +43,7 @@ export default function NavbarMobile({ isOpen }) {
         </ul>
         <div className="border-b border-white/[0.2] my-7"></div>
         <div className="flex gap-3">
-          <div className="bg-gray-700 p-2 rounded-lg">
+          <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-2 rounded-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
@@ -56,7 +61,7 @@ export default function NavbarMobile({ isOpen }) {
           <a
             target="_blank"
             href="https://github.com/codernirmal7"
-            className="bg-gray-700 p-2 rounded-lg"
+            className="bg-gradient-to-r from-purple-500 to-blue-500 p-2 rounded-lg"
           >
             <svg
               viewBox="0 -3.5 256 256"
