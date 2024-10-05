@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useState } from "react";
+import { FaPlus } from "react-icons/fa";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
@@ -11,15 +12,19 @@ const FaqItem = ({ item, index }) => {
   const onOpen = () => {
     if (active) {
       setActiveId(null);
-      console.log("active");
     } else {
       setActiveId(item.id);
-      console.log("disactive");
     }
-
   };
   return (
-    <div className="relative z-2 mb-5">
+    <div
+      className={`relative z-2 mb-2 md:mb-7 p-2 rounded-3xl transition-colors duration-500 ${
+        active && "g7"
+      }`}
+    >
+      {active && (
+        <div className="absolute top-0 left-5 rounded-md w-[8rem] bg-primary h-1 transition-all"></div>
+      )}
       <div
         className="group relative flex cursor-pointer items-center justify-between gap-10 px-7"
         onClick={onOpen}
@@ -31,8 +36,8 @@ const FaqItem = ({ item, index }) => {
           </div>
           <div
             className={clsx(
-              "h6 text-p4 transition-colors duration-500 max-md:flex max-md:min-h-20 max-md:items-center",
-              active && "max-lg:text-p1",
+              " text-p4 transition-colors duration-500 max-md:flex max-md:min-h-20 lg:text-xl max-md:items-center",
+              active && "text-p1"
             )}
           >
             {item.question}
@@ -40,20 +45,20 @@ const FaqItem = ({ item, index }) => {
         </div>
 
         <div
-          className=
-            {`faq-icon relative flex size-12 items-center justify-center rounded-full border-2 border-s2 shadow-400 transition-all duration-500 group-hover:border-s4",
+          className={`relative flex size-12 items-center justify-center rounded-full border-2 border-s2 shadow-400 transition-all duration-500 group-hover:border-s4",
             ${active && "before:bg-p1 after:rotate-0 after:bg-p1"}`}
         >
-          <div className="g4 size-11/12 rounded-full shadow-300" />
+          <div className="g4 size-11/12 rounded-full shadow-300 flex justify-center items-center">
+             <FaPlus/>
+          </div>
         </div>
       </div>
 
       <SlideDown>
         {activeId === item.id && (
-          <div className="max-w-sm px-7 py-3.5">{item.answer}</div>
+          <div className="max-w-sm px-7 py-3.5 text-gray-300">{item.answer}</div>
         )}
       </SlideDown>
-      
     </div>
   );
 };

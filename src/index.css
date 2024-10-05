@@ -118,3 +118,10 @@ h1,h2,h3,h4,h5,h6{
   padding-top: 7px !important;
   padding-bottom: 7px !important;
 }
+
+#howtostake{
+  background-image: url("https://raw.githubusercontent.com/adrianhajdin/xora/df0f61f18ed664396b0183481fb7c04cdf3a9ab7/public/images/bg-outlines.svg");
+  background-position: top;
+  background-repeat: no-repeat;
+
+}
