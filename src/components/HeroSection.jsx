@@ -2,17 +2,18 @@ import React from "react";
 import { Spotlight } from "./ui/Spotlight";
 import { FaArrowRight } from "react-icons/fa";
 import MetaMask3DModel from "./3dModals/MetaMask3DModel";
+import Button from "./Button";
 
 export default function HeroSection() {
   return (
     <>
-      <div className="rounded-md flex antialiased h-full overflow-hidden ">
-        {/* <Spotlight
+      <div className="rounded-md flex antialiased ">
+        <Spotlight
           className="-top-40 left-0 md:left-60 md:-top-20"
           fill="white"
-        /> */}
+        />
 
-        <div className="p-4  mx-auto relative z-10  w-full  flex items-center justify-center flex-col-reverse min-[1060px]:flex-row min-[1060px]:justify-around min-[1145px]:px-10">
+        <div className="p-4 mx-auto relative z-10 h-[690px]  pb-10 w-full  flex items-center justify-center flex-col-reverse min-[1060px]:flex-row min-[1060px]:justify-around min-[1145px]:px-10">
           <div className="flex flex-col  max-[1060px]:items-center">
           <h1 className="max-w-xl min-[1145px]:max-w-5xl max-[1060px]:max-w-3xl  uppercase text-4xl space-x-3 lg:text-6xl max-[1060px]:text-center font-black bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50">
             Connect your  <span className="bg-gradient-primary  leading-8 text-transparent bg-clip-text">MetaMask wallet</span> 
@@ -23,11 +24,13 @@ export default function HeroSection() {
               exciting play-to-earn opportunities. Join us today and take your
               first step into the world of decentralized finance!
             </p>
-            <div className="flex mt-4 gap-4 max-[1060px]:justify-center">
-              <button className="bg-gradient-primary hover:bg-gradient-hover  text-white font-bold py-2 px-4 rounded-lg shadow-lg  group/btn  flex items-center gap-1 transition-all">
-                Get started
-                <FaArrowRight className="group-hover/btn:translate-x-[3px] transition-all" />
-              </button>
+            <div className="flex mt-4 gap-4 max-[1060px]:justify-center">                
+              <Button children={
+                <>
+                  Get started
+                  <FaArrowRight className="group-hover/btn:translate-x-[3px] transition-all" />
+                </>
+              } className="px-4 py-2"/>
             </div>
             <div className="flex mt-16 gap-10">
               <button className="flex items-center gap-2 group/btn transition-all">
