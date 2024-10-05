@@ -1,24 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "./lib/utils";
 import { Link } from "react-router-dom";
 import NavbarMobile from "./NavbarMobile";
 export default function Navbar({  }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 32);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+
   return (
     <>
       <header
-        className={`fixed top-0  w-full z-50  py-3 bg-transparent ${
+        className={`fixed top-0 left-0 z-50 w-full py-4 transition-all duration-500 max-lg:py-4 border-b border-white/[0.1] ${
            isOpen? "" : "bg-opacity-90"
+        } ${
+        hasScrolled ? "pyI-2 bg-gray-900/[0.1] backdrop-blur-[8px]"
+        :""
         }`}
       >
-        <div className="w-full max-w-[1200px] flex mx-auto justify-between min-[900px]:justify-around items-center px-5">
+        <div className="w-full max-w-[1200px] flex mx-auto justify-between min-[900px]:justify-between items-center px-5 lg:px-10">
           <div>
             <a href="/" className=" text-2xl min-[900px]:text-3xl select-none font-extrabold font-protest">
-              Token<span className="bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text">craft.</span>
+              Token<span className="bg-gradient-primary text-transparent bg-clip-text">craft.</span>
             </a>
           </div>
           <nav className="min-[900px]:flex hidden">
@@ -26,6 +45,7 @@ export default function Navbar({  }) {
               <li>
                 <Link
                   to="/staking"
+                  onClick={() => setIsOpen(false)}
                   className="text-gray-300 hover:text-primary font-medium"
                 >
                   Staking
@@ -34,6 +54,7 @@ export default function Navbar({  }) {
               <li>
                 <Link
                   to="/earn-token"
+                  onClick={() => setIsOpen(false)}
                   className="text-gray-300 hover:text-primary font-medium"
                 >
                   Earn token
@@ -43,6 +64,7 @@ export default function Navbar({  }) {
               <li>
                 <Link
                   to="swap-token"
+                  onClick={() => setIsOpen(false)}
                   className="text-gray-300 hover:text-primary font-medium"
                 >
                   Swap token
@@ -51,7 +73,7 @@ export default function Navbar({  }) {
             </ul>
           </nav>
           <div className="flex items-center gap-4">
-            <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-sm text-white font-bold py-2 px-2 rounded-lg shadow-lg hover:from-purple-600 hover:to-blue-600 flex items-center gap-1">
+            <button className="bg-gradient-primary hover:bg-gradient-hover text-sm text-white font-bold py-2 px-2 rounded-lg shadow-lg flex items-center gap-1">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"

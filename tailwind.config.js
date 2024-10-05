@@ -23,6 +23,12 @@ module.exports = {
     animation: {
       spotlight: "spotlight 2s ease .75s 1 forwards",
     },
+
+    backgroundImage: {
+      'gradient-primary': 'linear-gradient(to right, #5D3FD3, #3b82f6)',
+      'gradient-hover': 'linear-gradient(to right, #3e24a6, #2b69ce)',
+    },
+    
     keyframes: {
       spotlight: {
         "0%": {
