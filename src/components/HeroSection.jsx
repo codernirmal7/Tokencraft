@@ -51,7 +51,7 @@ export default function HeroSection() {
               </button>
             </div>
           </div>
-          <div className="w-[800px] max-[1145px]:max-w-sm pointer-events-none">
+          <div className="w-[800px] max-[1145px]:max-w-sm heroimage pointer-events-none">
             <img
               src="hero.png" // Fallback image for browsers that don't support srcset
               srcSet="

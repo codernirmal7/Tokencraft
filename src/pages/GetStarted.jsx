@@ -2,6 +2,7 @@ import React from "react";
 import HeroSection from "../components/HeroSection";
 import HowtoStake from "../components/HowtoStake";
 import Faq from "../components/Faq";
+import Footer from "../components/Footer";
 
 export default function GetStarted() {
   return (
@@ -19,11 +20,16 @@ export default function GetStarted() {
     </section>
 
     <section id="faq" className="w-full relative flex pb-10 overflow-x-hidden">
-      <div className="max-w-[1200px] mx-auto ">
+      <div className="max-w-[1200px] mx-auto px-4">
         <Faq />
       </div>
     </section>
 
+   <footer>
+   <div className="max-w-[1200px] mx-auto ">
+        <Footer />
+      </div>
+   </footer>
     </>
   );
 }
