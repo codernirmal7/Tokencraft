@@ -13,11 +13,7 @@ export default function GetStarted() {
         <HeroSection />
       </div>
     </section>
-    <section id="howtostake" className="w-full relative flex pb-10 overflow-x-hidden">
-      <div className="max-w-[1200px] mx-auto ">
-        <HowtoStake />
-      </div>
-    </section>
+    
 
     <section id="faq" className="w-full relative flex pb-10 overflow-x-hidden">
       <div className="max-w-[1200px] mx-auto px-4">

@@ -130,3 +130,25 @@ h1,h2,h3,h4,h5,h6{
     width: 100%;
    }
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fff;
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #5D3FD3;
+  border-radius: 50rem;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #5D3FD3;
+}

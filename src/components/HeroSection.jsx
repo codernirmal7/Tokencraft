@@ -1,7 +1,6 @@
 import React from "react";
 import { Spotlight } from "./ui/Spotlight";
 import { FaArrowRight } from "react-icons/fa";
-import MetaMask3DModel from "./3dModals/MetaMask3DModel";
 import Button from "./Button";
 
 export default function HeroSection() {

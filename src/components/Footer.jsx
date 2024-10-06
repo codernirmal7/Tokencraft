@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaGithub, FaTelegram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import PrivacyPolicy from './Modals/PrivacyPolicy';
+import TermsofUse from './Modals/TermsofUse';
 
 export default function Footer() {
      const socials = [
@@ -22,6 +24,9 @@ export default function Footer() {
         },
       ];
 
+    const [isOpenPrivacyPolicy , setIsOpenPrivacyPolicy] = useState(false);
+    const [isOpenTermsofUse , setIsOpenTermsofUse] = useState(false);
+
   return (
     <div className="py-10 border-t border-primary/[0.2]">
         <div className="flex w-full max-md:flex-col">
@@ -29,10 +34,10 @@ export default function Footer() {
             <p className="opacity-70">Copyright, Tokencraft</p>
           </div>
           <div className="flex items-center justify-center sm:ml-auto">
-            <p className="legal-after relative mr-9 text-p5 transition-all duration-500 hover:text-p1">
+            <p onClick={()=> setIsOpenPrivacyPolicy(true)} className="legal-after relative cursor-pointer mr-9 text-p5 transition-all duration-500 hover:text-primary">
               Privacy Policy
             </p>
-            <p className="text-p5 transition-all duration-500 hover:text-p1">
+            <p onClick={()=> setIsOpenTermsofUse(true)} className="text-p5 cursor-pointer transition-all duration-500 hover:text-primary">
               Terms of Use
             </p>
           </div>
@@ -47,6 +52,8 @@ export default function Footer() {
             ))}
           </ul>
         </div>
+         <PrivacyPolicy setIsOpenPrivacyPolicy={setIsOpenPrivacyPolicy} isOpenPrivacyPolicy={isOpenPrivacyPolicy}/>
+         <TermsofUse isOpenTermsofUse={isOpenTermsofUse} setIsOpenTermsofUse={setIsOpenTermsofUse}/>
       </div>
   )
 }
