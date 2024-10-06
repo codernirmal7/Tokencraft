@@ -1,13 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FaXmark } from 'react-icons/fa6'
 
 export default function TermsofUse({isOpenTermsofUse, setIsOpenTermsofUse }) {
+  useEffect(() => {
+    if (isOpenTermsofUse) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  },[isOpenTermsofUse])
+
+  const handelClick = (e) => {
+    if (e.target.id === 'termsofuse-modal') {
+      setIsOpenTermsofUse(false)
+    }
+  }
+
   return (
     <>
        <div
         className={`w-full h-screen fixed z-[99] flex justify-center items-center top-0 left-0 px-7 py-5 bg-gray-900/10  scale-0 transition-all duration-500 ${
             isOpenTermsofUse ? "scale-100" : "scale-0"
         }`}
+        onClick={handelClick}
+        id='termsofuse-modal'
         
       >
         <div className="max-w-5xl mx-auto bg-gradient-to-br from-[#0e1434]/[0.5] to-[#1b275a]/[0.5]  backdrop-blur-md overflow-y-scroll h-full max-h-[40rem]">
