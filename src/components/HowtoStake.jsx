@@ -1,5 +1,7 @@
 import React from "react";
 import Button from "./Button";
+import ClipPath from "../assets/svg/ClipPath";
+import { div } from "framer-motion/client";
 
 export default function HowtoStake() {
   const features = [
@@ -120,16 +122,19 @@ export default function HowtoStake() {
         <h2 className="text-center pb-8 text-3xl lg:text-4xl font-bold mt-10">
           How to Stake
         </h2>
-        <div className="relative flex md:flex-wrap flex-nowrap  justify-center gap-2  rounded-7xl md:overflow-hidden max-md:flex-col feature-after md:g7 max-md:border-none max-md:rounded-none max-md:gap-3">
+        <div className="relative flex md:flex-wrap flex-nowrap  justify-center gap-9  md:overflow-hidden max-md:flex-col feature-after md:g7 max-md:border-none max-md:rounded-none max-md:gap-3">
           {features.map(({ id, step, title, text, button }) => (
             <div
               key={id}
-              className="relative z-2 md:px-10 px-5 rounded-lg md:pb-10 pb-5 flex-40 g7 max-md:border-2 max-md:border-s3 max-md:rounded-3xl"
+              className="relative z-2 md:px-10 px-5 rounded-lg md:pb-10 pb-5 flex-40 g7 border-2 border-primary/[0.3]"
+              style={{ clipPath: "url(#box)" }}
             >
               <div className="w-full flex justify-start items-start">
                 <div className="-ml-3 mb-12 flex items-center justify-center flex-col">
                   <div className="w-0.5 h-16 bg-s3" />
-                 <span className="h-14 w-14 flex justify-center items-center text-3xl border-2 border-primary rounded-full">{step}</span>
+                  <span className="h-14 w-14 flex justify-center items-center text-3xl border-2 border-primary rounded-full">
+                    {step}
+                  </span>
                 </div>
               </div>
 
@@ -147,6 +152,7 @@ export default function HowtoStake() {
                   }
                 />
               )}
+              <ClipPath />
             </div>
           ))}
         </div>

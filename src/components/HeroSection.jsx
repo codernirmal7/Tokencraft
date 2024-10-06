@@ -55,20 +55,19 @@ export default function HeroSection() {
             <img
               src="hero.png" // Fallback image for browsers that don't support srcset
               srcSet="
-   hersectionImage/image-320px.png 320w,
+    hersectionImage/image-320px.png 320w,
     hersectionImage/image-480px.png 480w,
     hersectionImage/image-768px.png 768w,
     hersectionImage/image-1024px.png 1024w,
     hersectionImage/image-1440px.png 1440w,
-    hersectionImage/image-1920px.png 1920w
-    hersectionImage/image-1920px.png 1920w
-    hersectionImage/image-2460px.png 1920w
+    hersectionImage/image-1920px.png 1920w,
+    hersectionImage/image-2460px.png 2460w
   "
               sizes="
     (max-width: 320px) 320px,
     (max-width: 640px) 640px,
     (max-width: 1024px) 1024px,
-    100vw 
+    100vw
   "
               className="size-1230 max-lg:h-auto"
               alt="hero"
