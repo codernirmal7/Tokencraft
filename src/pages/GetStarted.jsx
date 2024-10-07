@@ -17,7 +17,7 @@ export default function GetStarted() {
     
 
     <section id="aboutus" className="w-full relative flex  pt-6 pb-3 overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-5">
+      <div className="max-w-[1200px] mx-auto px-5 py-14">
         <AboutUs />
       </div>
     </section>

@@ -66,6 +66,9 @@ module.exports = {
       'gradient-hover': 'linear-gradient(to right, #3e24a6, #2b69ce)',
     },
     
+    animation: {
+      marquee: 'marquee 20s linear infinite', // 20s scrolling time
+    },
     keyframes: {
       spotlight: {
         "0%": {
