@@ -78,13 +78,13 @@ const Faq = () => {
 
             <div className="relative flex-1 pt-10">
               {faq.slice(0, halfLength).map((item, index) => (
-                <FaqItem key={item.id} item={item} index={index} />
+                <FaqItem key={item.id} item={item} index={index} isBgColor={true}/>
               ))}
             </div>
 
             <div className="relative flex-1 lg:pt-10">
               {faq.slice(halfLength).map((item, index) => (
-                <FaqItem key={item.id} item={item} index={halfLength + index} />
+                <FaqItem key={item.id} item={item} index={halfLength + index} isBgColor={true}/>
               ))}
             </div>
           </div>
