@@ -1,9 +1,4 @@
 import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css'; // Import the base Swiper styles
-import 'swiper/css/pagination'; // Import Pagination styles
-import 'swiper/css/navigation'; // Import Navigation styles
-import { Autoplay } from 'swiper/modules';
 
 
 const partners = [
@@ -12,8 +7,8 @@ const partners = [
     '/src/assets/partner/Kucoin.webp',
     '/src/assets/partner/Uniswap.png',
     '/src/assets/partner/Coinbase.png',
-    // Add more partner logos
   ];
+
 
 
 const PartnerSlider = () => {
