@@ -68,6 +68,7 @@ module.exports = {
     
     animation: {
       marquee: 'marquee 20s linear infinite', // 20s scrolling time
+      bounce: 'bounce 1s infinite',
     },
     keyframes: {
       spotlight: {
@@ -78,6 +79,10 @@ module.exports = {
         "100%": {
           opacity: 1,
           transform: "translate(-50%,-40%) scale(1)",
+        },
+        bounce: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
       },
     },

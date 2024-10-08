@@ -161,3 +161,12 @@ h1,h2,h3,h4,h5,h6{
     transform: translateX(-100%);
   }
 }
+.partnerContainer{
+  perspective: 2000px;
+}
+.partnerFirstImageContainer{
+  transform: rotateY(45deg);
+}
+.partnerSecondImageContainer{
+  transform: rotateY(-45deg);
+}
