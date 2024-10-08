@@ -29,11 +29,7 @@ export default function GetStarted() {
       </div>
     </section>
 
-   <footer>
-   <div className="max-w-[1200px] mx-auto ">
-        <Footer />
-      </div>
-   </footer>
+  
     </>
   );
 }

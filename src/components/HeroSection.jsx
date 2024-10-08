@@ -13,7 +13,7 @@ export default function HeroSection() {
           fill="white"
         />
 
-        <div className="p-4 mx-auto relative z-10 h-[690px] md:h-auto md:pt-16  w-full  flex items-center justify-center flex-col-reverse min-[1060px]:flex-row min-[1060px]:justify-around min-[1145px]:px-10">
+        <div className="p-4 mx-auto relative z-10 h-[690px] md:h-[600px] md:pt-16  w-full  flex items-center justify-center flex-col-reverse min-[1060px]:flex-row min-[1060px]:justify-around min-[1145px]:px-10">
           <div className="flex flex-col  max-[1060px]:items-center">
             <h1 className="max-w-xl min-[1145px]:max-w-5xl max-[1060px]:max-w-3xl  uppercase text-4xl space-x-3 lg:text-6xl max-[1060px]:text-center font-black bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50">
               Connect your{" "}

@@ -28,6 +28,8 @@ export default function Footer() {
     const [isOpenTermsofUse , setIsOpenTermsofUse] = useState(false);
 
   return (
+    <footer>
+   <div className="max-w-[1200px] mx-auto ">
     <div className="py-10 border-t border-primary/[0.2]">
         <div className="flex w-full max-md:flex-col">
           <div className="small-compact flex flex-1 flex-wrap items-center justify-center gap-5">
@@ -55,5 +57,7 @@ export default function Footer() {
          <PrivacyPolicy setIsOpenPrivacyPolicy={setIsOpenPrivacyPolicy} isOpenPrivacyPolicy={isOpenPrivacyPolicy}/>
          <TermsofUse isOpenTermsofUse={isOpenTermsofUse} setIsOpenTermsofUse={setIsOpenTermsofUse}/>
       </div>
+      </div>
+      </footer>
   )
 }
