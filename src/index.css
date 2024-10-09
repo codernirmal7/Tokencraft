@@ -170,3 +170,6 @@ h1,h2,h3,h4,h5,h6{
 .partnerSecondImageContainer{
   transform: rotateY(-45deg);
 }
+::selection {
+  background: rgba(166, 175, 189, 0.3);
+}
