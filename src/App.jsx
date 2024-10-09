@@ -1,15 +1,28 @@
-import Footer from "./components/Footer"
-import Navbar from "./components/Navbar"
-import GetStarted from "./pages/GetStarted"
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import GetStarted from "./pages/GetStarted";
 
-function App() { 
+function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/get-started",
+      element: (
+        <>
+          <Navbar />
+          <GetStarted />
+          <Footer />
+        </>
+      ),
+    },
+    
+  ]);
+
   return (
     <>
-       <Navbar/>
-       <GetStarted/>
-       <Footer/>
+      <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
