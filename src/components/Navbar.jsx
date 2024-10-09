@@ -46,7 +46,6 @@ export default function Navbar({}) {
               <li>
                 <Link
                   to="/staking"
-                  onClick={() => setIsOpen(false)}
                   className="text-gray-300 hover:text-primary font-medium"
                 >
                   Staking
@@ -55,7 +54,6 @@ export default function Navbar({}) {
               <li>
                 <Link
                   to="/earn-token"
-                  onClick={() => setIsOpen(false)}
                   className="text-gray-300 hover:text-primary font-medium"
                 >
                   Earn token
@@ -65,7 +63,6 @@ export default function Navbar({}) {
               <li>
                 <Link
                   to="swap-token"
-                  onClick={() => setIsOpen(false)}
                   className="text-gray-300 hover:text-primary font-medium"
                 >
                   Swap token
