@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { cn } from "./lib/utils";
 import { Link } from "react-router-dom";
 import NavbarMobile from "./NavbarMobile";
 import Button from "./Button";

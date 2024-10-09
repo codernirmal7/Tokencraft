@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "./Button";
 import ClipPath from "../assets/svg/ClipPath";
-import { div } from "framer-motion/client";
 
 export default function HowtoStake() {
   const features = [

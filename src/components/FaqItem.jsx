@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { useState } from "react";
-import { FaPlus } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa6";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";

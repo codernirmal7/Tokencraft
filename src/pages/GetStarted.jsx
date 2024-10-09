@@ -1,8 +1,6 @@
 import React from "react";
 import HeroSection from "../components/HeroSection";
-import HowtoStake from "../components/HowtoStake";
 import Faq from "../components/Faq";
-import Footer from "../components/Footer";
 import AboutUs from "../components/AboutUs";
 
 export default function GetStarted() {
