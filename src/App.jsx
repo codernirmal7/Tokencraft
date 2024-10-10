@@ -3,6 +3,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import GetStarted from "./pages/GetStarted";
 import Staking from "./pages/Staking";
+import Contact from "./pages/Contact";
 
 function App() {
   const router = createBrowserRouter([
@@ -22,6 +23,16 @@ function App() {
         <>
           <Navbar />
           <Staking />
+          <Footer />
+        </>
+      ),
+    },
+    {
+      path: "/contact",
+      element: (
+        <>
+          <Navbar />
+          <Contact />
           <Footer />
         </>
       ),

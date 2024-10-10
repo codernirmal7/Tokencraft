@@ -42,6 +42,14 @@ export default function NavbarMobile({ isOpen }) {
               Swap token
             </Link>
           </li>
+          <li>
+                <Link
+                  to="/contact"
+                  className="text-gray-300 hover:text-primary font-medium text-base"
+                >
+                  Contact
+                </Link>
+              </li>
         </ul>
         <div className="border-b border-white/[0.2] my-7"></div>
         <div className="flex gap-3">

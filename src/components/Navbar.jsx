@@ -62,10 +62,19 @@ export default function Navbar({}) {
 
               <li>
                 <Link
-                  to="swap-token"
+                  to="/swap-token"
                   className="text-gray-300 hover:text-primary font-medium"
                 >
                   Swap token
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-gray-300 hover:text-primary font-medium"
+                >
+                  Contact
                 </Link>
               </li>
             </ul>
