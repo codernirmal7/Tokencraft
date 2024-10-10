@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import GetStarted from "./pages/GetStarted";
 import Staking from "./pages/Staking";
 import Contact from "./pages/Contact";
+import SwapToken from "./pages/SwapToken";
 
 function App() {
   const router = createBrowserRouter([
@@ -33,6 +34,16 @@ function App() {
         <>
           <Navbar />
           <Contact />
+          <Footer />
+        </>
+      ),
+    },
+    {
+      path: "/swap-token",
+      element: (
+        <>
+          <Navbar />
+          <SwapToken />
           <Footer />
         </>
       ),

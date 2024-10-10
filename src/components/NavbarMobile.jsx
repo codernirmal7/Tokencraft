@@ -36,7 +36,7 @@ export default function NavbarMobile({ isOpen }) {
 
           <li>
             <Link
-              to="swap-token"
+              to="/swap-token"
               className="text-gray-300 hover:text-primary font-medium text-base"
             >
               Swap token
