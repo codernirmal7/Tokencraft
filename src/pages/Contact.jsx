@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../components/Button";
-import { FaPlane, FaSeedling, FaTelegramPlane } from "react-icons/fa";
+import {FaTelegramPlane } from "react-icons/fa";
 
 export default function Contact() {
   return (
