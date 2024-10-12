@@ -30,12 +30,12 @@ export default function Footer() {
   return (
     <footer>
    <div className="max-w-[1200px] mx-auto ">
-    <div className="py-10 border-t border-primary/[0.2]">
-        <div className="flex w-full max-md:flex-col">
+    <div className="py-10 border-t border-primary/[0.2] px-9">
+        <div className="flex w-full max-[750px]:flex-col">
           <div className="small-compact flex flex-1 flex-wrap items-center justify-center gap-5">
             <p className="opacity-70">Copyright, Tokencraft</p>
           </div>
-          <div className="flex items-center justify-center sm:ml-auto">
+          <div className="flex items-center justify-center mt-3">
             <p onClick={()=> setIsOpenPrivacyPolicy(true)} className="legal-after relative cursor-pointer mr-9 text-p5 transition-all duration-500 hover:text-primary">
               Privacy Policy
             </p>
