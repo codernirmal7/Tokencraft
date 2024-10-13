@@ -2,15 +2,46 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavbarMobile from "./NavbarMobile";
 import Button from "./Button";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  connectWallet,
+  handleAccountChange,
+  handleChainIdChange,
+} from "../redux/slices/web3Content";
+import { FaUser } from "react-icons/fa";
+import { FaCircleUser } from "react-icons/fa6";
+import { ethers } from "ethers";
+import { supportChaindId } from "../SupportChainId";
 export default function Navbar({}) {
   const [isOpen, setIsOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const dispatch = useDispatch();
+  const web3ContentInitialState = useSelector((state) => state.web3Content);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+
+  useEffect(()=>{
+    const getAvailableStakeToken = async ()=>{
+        try {
+            const stakeTokenInWei = await web3ContentInitialState.accountInfo.craftTokenContract.balanceOf(web3ContentInitialState.accountInfo.selectedAccount)
+            const stakeTokenInEther = ethers.formatEther(stakeTokenInWei)
+            console.log(stakeTokenInEther)
+        } catch (error) {
+            console.log("Error while getting user available staked token",error)
+        }
+    }
+
+    web3ContentInitialState.accountInfo.craftTokenContract && getAvailableStakeToken()
+
+  },[web3ContentInitialState.accountInfo?.craftTokenContract || null , web3ContentInitialState.accountInfo?.selectedAccount || null])
+
+
+
   useEffect(() => {
+
     const handleScroll = () => {
       setHasScrolled(window.scrollY > 32);
     };
@@ -22,12 +53,36 @@ export default function Navbar({}) {
     };
   }, []);
 
+  useEffect(() => {
+    const handleAccountsChanged = (accounts) => {
+      //Check if account lenght is greater than 0 or not
+      if (accounts.length > 0) {
+        dispatch(handleAccountChange(accounts[0]));
+      }
+    };
+
+    const handleChainChanged = (chainId) => {
+      //Check if chain Id lenght is greater than 0 or not
+      dispatch(handleChainIdChange(parseInt(chainId, 16)));
+    };
+
+    window.ethereum.on("accountsChanged", handleAccountsChanged);
+    window.ethereum.on("chainChanged", handleChainChanged);
+
+    //CleanUp after work done
+    return () => {
+      window.ethereum.removeListener("accountChanged", handleAccountsChanged);
+      window.ethereum.removeListener("chainChanged", handleChainChanged);
+    };
+  }, [dispatch]);
+
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 z-50 w-full py-4 transition-all duration-500 max-lg:py-4 border-b border-white/[0.1] ${
+        className={`fixed top-0 left-0 z-50 w-full py-4  transition-all duration-500 max-lg:py-4 border-b border-white/[0.1] ${
           isOpen ? "" : "bg-opacity-90"
-        } ${hasScrolled ? "pyI-2 bg-gray-900/[0.1] backdrop-blur-[8px]" : ""}`}
+        } ${hasScrolled ? "pyI-2  bg-gray-900/[0.1] backdrop-blur-[8px]" : ""}`}
       >
         <div className="w-full max-w-[1200px] flex mx-auto justify-between min-[900px]:justify-between items-center px-5 lg:px-10">
           <div>
@@ -80,37 +135,59 @@ export default function Navbar({}) {
             </ul>
           </nav>
           <div className="flex items-center gap-4">
-            <Button
-              children={
-                <>
-                 <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="30px"
-                >
-                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  ></g>
-                  <g id="SVGRepo_iconCarrier">
-                    {" "}
-                    <path
-                      d="M18 8V7.2C18 6.0799 18 5.51984 17.782 5.09202C17.5903 4.71569 17.2843 4.40973 16.908 4.21799C16.4802 4 15.9201 4 14.8 4H6.2C5.07989 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.0799 3 7.2V8M21 12H19C17.8954 12 17 12.8954 17 14C17 15.1046 17.8954 16 19 16H21M3 8V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V11.2C21 10.0799 21 9.51984 20.782 9.09202C20.5903 8.71569 20.2843 8.40973 19.908 8.21799C19.4802 8 18.9201 8 17.8 8H3Z"
-                      stroke="#ffffff"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>{" "}
-                  </g>
-                </svg>
-                Connect Wallet
-                </>
-               
-              }
-            />
+            {web3ContentInitialState.isWalletConnected ? (
+              web3ContentInitialState.accountInfo?.chainId == supportChaindId ? (
+                <div className="flex gap-3 items-center cursor-pointer py-2 px-1">
+                <FaCircleUser size={30} />
+                <span className="">
+                  {web3ContentInitialState.accountInfo.selectedAccount.slice(
+                    0,
+                    6
+                  )}
+                  ...
+                  {web3ContentInitialState.accountInfo.selectedAccount.slice(
+                    -4
+                  )}
+                </span>
+              </div>
+              )
+              :
+              <span className="text-xl py-2">Unsupported Chain</span>
+            ) : (
+              <>
+                <Button
+                  onClick={() => dispatch(connectWallet())}
+                  children={
+                    <>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="30px"
+                      >
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                          {" "}
+                          <path
+                            d="M18 8V7.2C18 6.0799 18 5.51984 17.782 5.09202C17.5903 4.71569 17.2843 4.40973 16.908 4.21799C16.4802 4 15.9201 4 14.8 4H6.2C5.07989 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.0799 3 7.2V8M21 12H19C17.8954 12 17 12.8954 17 14C17 15.1046 17.8954 16 19 16H21M3 8V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V11.2C21 10.0799 21 9.51984 20.782 9.09202C20.5903 8.71569 20.2843 8.40973 19.908 8.21799C19.4802 8 18.9201 8 17.8 8H3Z"
+                            stroke="#ffffff"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>{" "}
+                        </g>
+                      </svg>
+                      Connect Wallet
+                    </>
+                  }
+                />
+              </>
+            )}
             <div
               className={`hamburger min-[900px]:hidden  ${
                 isOpen ? "open scaleUp" : ""

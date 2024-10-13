@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import web3Content from "./slices/Web3Content";
+import web3Content from "./slices/web3Content";
 
 export const store = configureStore({
   reducer: {
