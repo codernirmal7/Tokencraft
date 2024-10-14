@@ -98,7 +98,9 @@ const connectWallet = createAsyncThunk(
         throw error;
       }
     }
-  );  
+);  
+
+
 
 const web3ContentSlice = createSlice({
     name: "web3Content",

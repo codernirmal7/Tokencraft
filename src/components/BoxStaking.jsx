@@ -1,10 +1,49 @@
-import React, { useState } from "react";
+import { ethers } from "ethers";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function BoxStaking({selectedToken,setSelectedToken}) {
   const [selectedDurationDetails, setSelectedDurationDetails] = useState({
     duration: 7,
     apy: "1.6%",
   });
+  const web3ContentInitialState = useSelector((state) => state.web3Content);
+  const [userTokenInfo , setUserTokenInfo] = useState("0")
+
+  useEffect(() => {
+    const getUserStakedInfo = async () => {
+      try {
+        let data;
+        if (selectedToken === "Craft") {
+          data =
+            await web3ContentInitialState.accountInfo.craftTokenContract.balanceOf(web3ContentInitialState.accountInfo.selectedAccount)
+          } else {
+          if (selectedToken === "Dragon Craft") {
+            data =
+              await web3ContentInitialState.accountInfo.dragonCraftTokenContract.balanceOf(
+                web3ContentInitialState.accountInfo.selectedAccount
+              );
+
+          } else {
+            data = null;
+          }
+        }
+        const tokenInEther = ethers.formatEther(data)
+        setUserTokenInfo(tokenInEther)
+      } catch (error) {
+        console.log("Error while getting user available staked token", error);
+      }
+    };
+
+    web3ContentInitialState.accountInfo.craftTokenContract &&
+    getUserStakedInfo();
+  }, [
+    web3ContentInitialState.accountInfo?.craftTokenContract || null,
+    web3ContentInitialState.accountInfo?.selectedAccount || null,
+    selectedToken,
+  ]);
+
+  
   
   return (
     <>
@@ -13,7 +52,7 @@ export default function BoxStaking({selectedToken,setSelectedToken}) {
         <button className={`${selectedToken == "Craft" ? "bg-s2" : ""} p-4 rounded-t-xl`} onClick={()=> setSelectedToken("Craft")}>Craft Token</button>
         <button className={`${selectedToken == "Dragon Craft" ? "bg-s2" : ""} p-4 rounded-t-xl`} onClick={()=> setSelectedToken("Dragon Craft")}>Dragon Craft Token</button>
       </div>
-        <div className="bg-s2 w-full rounded-b-7xl rounded-tr-7xl p-8 min-[880px]:h-[50rem]">
+        <div className="bg-s2 w-full rounded-b-7xl rounded-tr-7xl p-8">
       <h1 className="text-2xl lg:text-3xl font-bold">Stake {selectedToken} Token</h1>
       <div className="py-7 grid max-[500px]:grid-cols-2 grid-cols-3 lg:grid-cols-4 gap-4 font-bold">
         <button
@@ -82,7 +121,7 @@ export default function BoxStaking({selectedToken,setSelectedToken}) {
         </div>
       </div>
       <div className="w-full mt-7 flex flex-col gap-5">
-        <span className="text-[#9CA0D2] font-bold text-[1.1rem]">Balance : 4000.890091</span>
+        <span className="text-[#9CA0D2] font-bold text-[1.1rem]">Balance : {userTokenInfo}</span>
 
         <div className="flex gap-3">
           <div className="w-full relative rounded-lg">

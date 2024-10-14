@@ -8,9 +8,7 @@ import {
   handleAccountChange,
   handleChainIdChange,
 } from "../redux/slices/web3Content";
-import { FaUser } from "react-icons/fa";
 import { FaCircleUser } from "react-icons/fa6";
-import { ethers } from "ethers";
 import { supportChaindId } from "../SupportChainId";
 export default function Navbar({}) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,21 +21,7 @@ export default function Navbar({}) {
   };
 
 
-  useEffect(()=>{
-    const getAvailableStakeToken = async ()=>{
-        try {
-            const stakeTokenInWei = await web3ContentInitialState.accountInfo.craftTokenContract.balanceOf(web3ContentInitialState.accountInfo.selectedAccount)
-            const stakeTokenInEther = ethers.formatEther(stakeTokenInWei)
-            console.log(stakeTokenInEther)
-        } catch (error) {
-            console.log("Error while getting user available staked token",error)
-        }
-    }
-
-    web3ContentInitialState.accountInfo.craftTokenContract && getAvailableStakeToken()
-
-  },[web3ContentInitialState.accountInfo?.craftTokenContract || null , web3ContentInitialState.accountInfo?.selectedAccount || null])
-
+ 
 
 
   useEffect(() => {
