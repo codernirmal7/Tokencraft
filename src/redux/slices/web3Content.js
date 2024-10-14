@@ -48,9 +48,9 @@ const connectWallet = createAsyncThunk(
         const signer = await provider.getSigner();
   
         const craftTokenStakingAddress =
-          "0x0c5A71F5D38405974735BCEDD542B1C939c3d103";
+          "0x76DB889C60e8e60AE664A982E9777E81FDC21893";
         const dragonCraftTokenStakingAddress =
-          "0x880A0D296618B9e16eB41bCAE6E49C38C93fb7f8";
+          "0x57E391C529bE209Dff687CdBbb02B35CF0f38d88";
 
           const craftTokenAddress =
           "0x40686A81647D9b18f9399c8b4Ba5FF45f45aB943";

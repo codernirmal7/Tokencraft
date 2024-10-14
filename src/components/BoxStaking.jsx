@@ -5,11 +5,12 @@ import { useSelector } from "react-redux";
 export default function BoxStaking({ selectedToken, setSelectedToken }) {
   const [selectedDurationDetails, setSelectedDurationDetails] = useState({
     duration: 7,
-    apy: "1.6%",
+    apy: 10,
   });
   const web3ContentInitialState = useSelector((state) => state.web3Content);
   const [userTokenInfo, setUserTokenInfo] = useState("0");
-  const [tokenApprovalValue, setTokenApprovalValue] = useState(0);
+  const [tokenApprovalInputValue, setTokenApprovalInputValue] = useState(0);
+  const [stakeTokenInputValue, setStakeTokenInputValue] = useState(0);
 
   useEffect(() => {
     const getUserToken = async () => {
@@ -20,6 +21,7 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
             await web3ContentInitialState.accountInfo.craftTokenContract.balanceOf(
               web3ContentInitialState.accountInfo.selectedAccount
             );
+           
         } else {
           if (selectedToken === "Dragon Craft") {
             data =
@@ -30,8 +32,8 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
             data = null;
           }
         }
-        const tokenInEther = ethers.formatEther(data);
-        setUserTokenInfo(tokenInEther);
+       
+        setUserTokenInfo(data);
       } catch (error) {
         console.log("Error while getting user available staked token", error);
       }
@@ -45,10 +47,15 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
   ]);
 
   const approveToken = async () => {
-    if (tokenApprovalValue <= 0) {
+    if (tokenApprovalInputValue <= 0) {
       return null;
     }
-    const amountToSend = ethers.parseUnits(tokenApprovalValue, 18).toString();
+    if(tokenApprovalInputValue > userTokenInfo){
+      console.log("Insufficient token");
+    }
+    const amountToSend = ethers
+      .parseUnits(tokenApprovalInputValue, 18)
+      .toString();
     try {
       let transaction;
       if (selectedToken === "Craft") {
@@ -80,9 +87,65 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
     }
   };
 
-  function onChangeTokenApprovalValue(e) {
-    setTokenApprovalValue(e.target.value);
+  const stakeToken = async () => {
+    if (stakeTokenInputValue <= 0) {
+      return null;
+    }
+    if(stakeTokenInputValue > userTokenInfo){
+      console.log("Insufficient token");
+    }
+    const amountToSend = ethers.parseUnits(stakeTokenInputValue, 18).toString();
+    try {
+      let transaction;
+      if (selectedToken === "Craft") {
+        transaction =
+          await web3ContentInitialState.accountInfo.craftTokenStakingContract.stake(
+            amountToSend,
+            selectedDurationDetails.duration * 86400
+          );
+      } else {
+        if (selectedToken === "Dragon Craft") {
+          transaction =
+            await web3ContentInitialState.accountInfo.dragonCraftTokenStakingContract.stake(
+              amountToSend,
+              selectedDurationDetails.duration * 86400
+            );
+        } else {
+          transaction = null;
+        }
+      }
+      console.log("pending....");
+      const receipt = await transaction.wait();
+      if (receipt.status == 1) {
+        console.log("success");
+      }
+    } catch (error) {
+      console.log("Error while getting user available staked token", error);
+    }
+  };
+
+  function onChangeTokenApprovalInputValue(e) {
+    setTokenApprovalInputValue(e.target.value);
   }
+
+  function onChangeStakeTokenInputValue(e) {
+    setStakeTokenInputValue(e.target.value);
+  }
+
+  const calculateReward = () => {
+    if(stakeTokenInputValue ==0){
+    return 0
+    }
+    const stakeValue = parseInt(stakeTokenInputValue)
+    const apr = selectedDurationDetails.apy;
+    const duration = selectedDurationDetails.duration * 86400;
+    const oneYearInSeconds = 31536000;
+
+    return (stakeValue * apr * duration) / (oneYearInSeconds * 100);
+   
+  };
+
+
 
   return (
     <>
@@ -117,22 +180,10 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
                   : "bg-primary/[0.2]"
               } text-white py-[12px] px-[24px] rounded-lg transition-all`}
               onClick={() =>
-                setSelectedDurationDetails({ duration: 7, apy: "1.6%" })
+                setSelectedDurationDetails({ duration: 7, apy: 10 })
               }
             >
               7 Days
-            </button>
-            <button
-              className={`${
-                selectedDurationDetails.duration == 14
-                  ? "bg-primary"
-                  : "bg-primary/[0.2]"
-              } text-white py-[12px] px-[24px] rounded-lg transition-all`}
-              onClick={() =>
-                setSelectedDurationDetails({ duration: 14, apy: "3.2%" })
-              }
-            >
-              14 Days
             </button>
             <button
               className={`${
@@ -141,22 +192,22 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
                   : "bg-primary/[0.2]"
               } text-white py-[12px] px-[24px] rounded-lg transition-all`}
               onClick={() =>
-                setSelectedDurationDetails({ duration: 30, apy: "5.6%" })
+                setSelectedDurationDetails({ duration: 30, apy: 20 })
               }
             >
               30 Days
             </button>
             <button
               className={`${
-                selectedDurationDetails.duration == 60
+                selectedDurationDetails.duration == 365
                   ? "bg-primary"
                   : "bg-primary/[0.2]"
               } text-white py-[12px] px-[24px] rounded-lg transition-all`}
               onClick={() =>
-                setSelectedDurationDetails({ duration: 60, apy: "15.6%" })
+                setSelectedDurationDetails({ duration: 365, apy: 50 })
               }
             >
-              60 Days
+              365 Days
             </button>
           </div>
           <div className="flex gap-4 items-center mt-5 text-[#9CA0D2] ">
@@ -170,7 +221,7 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
             </div>
             <div className="w-[50%] flex justify-end items-end flex-col ">
               <div>
-                <h2 className="text-5xl">{selectedDurationDetails.apy}</h2>
+                <h2 className="text-5xl">{selectedDurationDetails.apy}%</h2>
                 <span>APY*</span>
               </div>
             </div>
@@ -185,36 +236,52 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
                   type="text"
                   className="bg-s1 w-full bg-transparent border-2 border-gray-400 outline-none rounded-lg px-4 py-2 focus:border-primary"
                   placeholder="0.0"
-                  required
-                  value={tokenApprovalValue}
-                  onChange={onChangeTokenApprovalValue}
+                  value={tokenApprovalInputValue}
+                  onChange={onChangeTokenApprovalInputValue}
                 />
                 <button
                   className="absolute right-0 w-14 h-11 rounded-lg bg-red-700"
-                  onClick={() => setTokenApprovalValue(userTokenInfo)}
+                  onClick={() => setTokenApprovalInputValue(userTokenInfo)}
                 >
                   max
                 </button>
               </div>
-              <button className="bg-gradient-primary hover:bg-gradient-hover text-white py-3 w-44 rounded-lg cursor-pointer z-10" onClick={approveToken}>
+              <button
+                className="bg-gradient-primary hover:bg-gradient-hover text-white py-3 w-44 rounded-lg cursor-pointer z-10"
+                onClick={approveToken}
+              >
                 Approve
               </button>
             </div>
-
-            <div className="flex gap-3">
-              <div className="w-full relative rounded-lg">
-                <input
-                  type="text"
-                  className="bg-s1 w-full bg-transparent border-2 border-gray-400 outline-none rounded-lg px-4 py-2 focus:border-primary"
-                  placeholder="0.0"
-                />
-                <button className="absolute right-0 w-14 h-11 rounded-lg bg-red-700">
-                  max
+            <div>
+              <div className="flex gap-3">
+                <div className="w-full relative rounded-lg">
+                  <input
+                    type="number"
+                    min={1}
+                    className="bg-s1 w-full bg-transparent border-2 border-gray-400 outline-none rounded-lg px-4 py-2 focus:border-primary"
+                    placeholder="0.0"
+                    value={stakeTokenInputValue}
+                    onChange={onChangeStakeTokenInputValue}
+                  />
+                  <button
+                    className="absolute right-0 w-14 h-11 rounded-lg bg-red-700"
+                    onClick={() => setStakeTokenInputValue(userTokenInfo)}
+                  >
+                    max
+                  </button>
+                </div>
+                <button
+                  className="bg-gradient-primary hover:bg-gradient-hover text-white py-3 w-44 rounded-lg cursor-pointer z-10"
+                  onClick={stakeToken}
+                >
+                  Stake
                 </button>
               </div>
-              <button className="bg-gradient-primary hover:bg-gradient-hover text-white py-3 w-44 rounded-lg cursor-pointer z-10">
-                Stake
-              </button>
+
+              <span className="text-gray-300">
+                You will get {calculateReward()}
+              </span>
             </div>
 
             <div className="flex gap-3">
