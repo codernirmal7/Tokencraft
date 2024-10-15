@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export default function BoxStaking({ selectedToken, setSelectedToken }) {
+export default function BoxStaking({ selectedToken, setSelectedToken, userStakedInfo }) {
   const [selectedDurationDetails, setSelectedDurationDetails] = useState({
     duration: 7,
     apy: 10,
@@ -110,6 +110,30 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
               amountToSend,
               selectedDurationDetails.duration * 86400
             );
+        } else {
+          transaction = null;
+        }
+      }
+      console.log("pending....");
+      const receipt = await transaction.wait();
+      if (receipt.status == 1) {
+        console.log("success");
+      }
+    } catch (error) {
+      console.log("Error while getting user available staked token", error);
+    }
+  };
+
+  const unStakeToken = async () => {
+    try {
+      let transaction;
+      if (selectedToken === "Craft") {
+        transaction =
+          await web3ContentInitialState.accountInfo.craftTokenStakingContract.unStake();
+      } else {
+        if (selectedToken === "Dragon Craft") {
+          transaction =
+            await web3ContentInitialState.accountInfo.dragonCraftTokenStakingContract.unStake();
         } else {
           transaction = null;
         }
@@ -288,14 +312,13 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
               <div className="w-full relative h-[1.20rem">
                 <input
                   type="text"
-                  className="bg-s1 w-full bg-transparent border-2 border-gray-400 outline-none rounded-lg px-4 py-2 focus:border-primary"
-                  placeholder="0.0"
+                  className="bg-gray-700 w-full bg-transparent border-2 border-gray-400 outline-none rounded-lg px-4 py-2 focus:border-primary"
+                  disabled
+                  value={userStakedInfo.amount}
                 />
-                <button className="absolute right-0 w-14 h-11 rounded-lg bg-red-700">
-                  max
-                </button>
+                
               </div>
-              <button className="bg-gradient-primary hover:bg-gradient-hover text-white w-44 py-3  rounded-lg cursor-pointer z-10">
+              <button className="bg-gradient-primary hover:bg-gradient-hover text-white w-44 py-3  rounded-lg cursor-pointer z-10" onClick={unStakeToken}>
                 UnStake
               </button>
             </div>
