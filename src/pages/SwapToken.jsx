@@ -3,10 +3,9 @@ import Button from "../components/Button";
 import { FaCaretDown, FaExchangeAlt } from "react-icons/fa";
 
 export default function SwapToken() {
-  const [selectedToken, setSelectedToken] = useState({
-    from: "Craft",
-    to: "Dragon Craft",
-  });
+  const [selectedToken, setSelectedToken] = useState("Craft Token");
+  const [isShowTokenList, setIsShowTokenList] = useState(false);
+
   return (
     <>
       <section className="w-full mt-[100px] pb-14 md:py-6 md:pb-14">
@@ -18,8 +17,15 @@ export default function SwapToken() {
               <div className="flex justify-between items-center">
                 <div className="flex gap-2 items-center">
                   <span className="text-gray-400">From</span>
-                  <div className="flex items-center cursor-pointer">
-                    <span className="text-lg">{selectedToken.from}</span>
+                  <div className="flex items-center cursor-pointer relative" onClick={() => setIsShowTokenList(!isShowTokenList)}>
+                    <span className="text-lg">{selectedToken}</span>
+                    <FaCaretDown size={20}/>
+                    <div className={`absolute max-w-sm w-[10rem] rounded-xl top-8 bg-s3 z-20 p-2 transition-all ${isShowTokenList ? "scale-100" : "scale-0"}`}>
+                       <ul>
+                        <li className="hover:bg-s4 p-2 rounded-md" onClick={()=> setSelectedToken("Craft Token")}>Craft Token</li>
+                        <li className="hover:bg-s4 p-2 rounded-md" onClick={()=> setSelectedToken("Dragon Craft Token")}>Dragon Craft Token</li>
+                       </ul>
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center">
@@ -39,12 +45,7 @@ export default function SwapToken() {
               <FaExchangeAlt
                 className="-rotate-90 transition-all hover:scale-110 cursor-pointer bg-primary/[0.1] hover:bg-primary/[0.2] p-3 rounded-full"
                 size={45}
-                onClick={()=> setSelectedToken((prev)=>{
-                  return {
-                    from: prev.to,
-                    to: prev.from
-                  }
-                })}
+                
               />
             </div>
 
@@ -53,7 +54,7 @@ export default function SwapToken() {
                 <div className="flex gap-2 items-center">
                   <span className="text-gray-400">To</span>
                   <div className="flex items-center cursor-pointer">
-                    <span className="text-lg">{selectedToken.to}</span>
+                    <span className="text-lg">USDT</span>
                   </div>
                 </div>
                 <div className="flex items-center">
