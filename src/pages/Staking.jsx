@@ -53,7 +53,7 @@ export default function Staking() {
 
   return (
     <>
-       <div className='w-full pb-10 px-4 py-4 md:px-7 md:py-8 mt-[100px] '>
+       <div className='w-full pb-10 px-4 py-4 md:px-7 md:py-8 mt-[100px] relative'>
           <div className='max-w-[1200px] mx-auto flex max-[880px]:flex-col gap-6'>
           <BoxStaking selectedToken={selectedToken} setSelectedToken={setSelectedToken} userStakedInfo={userStakedInfo}/>
           <BoxStakingDetails selectedToken={selectedToken} userStakedInfo={userStakedInfo}/>

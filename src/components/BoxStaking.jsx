@@ -1,8 +1,15 @@
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import ProcessingAlert from "./Alerts/ProcessingAlert";
+import SuccessAlert from "./Alerts/SuccessAlert";
+import ErrorAlert from "./Alerts/ErrorAlert";
 
-export default function BoxStaking({ selectedToken, setSelectedToken, userStakedInfo }) {
+export default function BoxStaking({
+  selectedToken,
+  setSelectedToken,
+  userStakedInfo,
+}) {
   const [selectedDurationDetails, setSelectedDurationDetails] = useState({
     duration: 7,
     apy: 10,
@@ -11,6 +18,18 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
   const [userTokenInfo, setUserTokenInfo] = useState("0");
   const [tokenApprovalInputValue, setTokenApprovalInputValue] = useState(0);
   const [stakeTokenInputValue, setStakeTokenInputValue] = useState(0);
+  const [isOpenLoadingAlert, setIsOpenLoadingAlert] = useState({
+    show: false,
+    message: "",
+  });
+  const [isOpenSuccessAlert, setIsOpenSuccessAlert] = useState({
+    show: false,
+    message: "",
+  });
+  const [isOpenErrorAlert, setIsOpenErrorAlert] = useState({
+    show: false,
+    message: "",
+  });
 
   useEffect(() => {
     const getUserToken = async () => {
@@ -21,7 +40,6 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
             await web3ContentInitialState.accountInfo.craftTokenContract.balanceOf(
               web3ContentInitialState.accountInfo.selectedAccount
             );
-           
         } else {
           if (selectedToken === "Dragon Craft") {
             data =
@@ -32,7 +50,7 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
             data = null;
           }
         }
-        const tokenInEthers =  ethers.formatEther(data);
+        const tokenInEthers = ethers.formatEther(data);
         setUserTokenInfo(tokenInEthers);
       } catch (error) {
         console.log("Error while getting user available staked token", error);
@@ -50,8 +68,17 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
     if (tokenApprovalInputValue <= 0) {
       return null;
     }
-    if(tokenApprovalInputValue > userTokenInfo){
-      console.log("Insufficient token");
+    if (tokenApprovalInputValue > userTokenInfo) {
+      setIsOpenErrorAlert({
+        show: true,
+        message: "Insufficient token",
+      });
+      setTimeout(() => {
+        setIsOpenErrorAlert({
+          show: false,
+          message: "",
+        });
+      }, 2000);
     }
     const amountToSend = ethers
       .parseUnits(tokenApprovalInputValue, 18)
@@ -77,13 +104,46 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
           transaction = null;
         }
       }
-      console.log("pending....");
+      setIsOpenLoadingAlert({
+        show: true,
+        message: "Transaction is pending...",
+      });
       const receipt = await transaction.wait();
       if (receipt.status == 1) {
-        console.log("success");
+        setIsOpenLoadingAlert({
+          show: false,
+          message: "",
+        });
+        setIsOpenSuccessAlert({
+          show: true,
+          message: "Transaction completed.",
+        });
+        setTimeout(() => {
+          setIsOpenSuccessAlert({
+            show: false,
+            message: "",
+          });
+        }, 2000);
       }
     } catch (error) {
-      console.log("Error while getting user available staked token", error);
+      if (error.code === "TRANSACTION_REPLACED") {
+        console.error("Transaction replaced:", error);
+      } else if (error.reason) {
+        setIsOpenErrorAlert({
+          show: true,
+          message: error.reason,
+        });
+        setTimeout(() => {
+          setIsOpenErrorAlert({
+            show: false,
+            message: "",
+          });
+        }, 2000);
+      } else if (error.data && error.data.message) {
+        console.error("Error message:", error.data.message);
+      } else {
+        console.error("An unknown error occurred:", error);
+      }
     }
   };
 
@@ -91,8 +151,17 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
     if (stakeTokenInputValue <= 0) {
       return null;
     }
-    if(stakeTokenInputValue > userTokenInfo){
-      console.log("Insufficient token");
+    if (stakeTokenInputValue > userTokenInfo) {
+      setIsOpenErrorAlert({
+        show: true,
+        message: "Insufficient token",
+      });
+      setTimeout(() => {
+        setIsOpenErrorAlert({
+          show: false,
+          message: "",
+        });
+      }, 2000);
     }
     const amountToSend = ethers.parseUnits(stakeTokenInputValue, 18).toString();
     try {
@@ -114,13 +183,46 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
           transaction = null;
         }
       }
-      console.log("pending....");
+      setIsOpenLoadingAlert({
+        show: true,
+        message: "Transaction is pending...",
+      });
       const receipt = await transaction.wait();
       if (receipt.status == 1) {
-        console.log("success");
+        setIsOpenLoadingAlert({
+          show: false,
+          message: "",
+        });
+        setIsOpenSuccessAlert({
+          show: true,
+          message: "Transaction completed.",
+        });
+        setTimeout(() => {
+          setIsOpenSuccessAlert({
+            show: false,
+            message: "",
+          });
+        }, 2000);
       }
     } catch (error) {
-      console.log("Error while getting user available staked token", error);
+      if (error.code === "TRANSACTION_REPLACED") {
+        console.error("Transaction replaced:", error);
+      } else if (error.reason) {
+        setIsOpenErrorAlert({
+          show: true,
+          message: error.reason,
+        });
+        setTimeout(() => {
+          setIsOpenErrorAlert({
+            show: false,
+            message: "",
+          });
+        }, 2000);
+      } else if (error.data && error.data.message) {
+        console.error("Error message:", error.data.message);
+      } else {
+        console.error("An unknown error occurred:", error);
+      }
     }
   };
 
@@ -138,13 +240,46 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
           transaction = null;
         }
       }
-      console.log("pending....");
+      setIsOpenLoadingAlert({
+        show: true,
+        message: "Transaction is pending...",
+      });
       const receipt = await transaction.wait();
       if (receipt.status == 1) {
-        console.log("success");
+        setIsOpenLoadingAlert({
+          show: false,
+          message: "",
+        });
+        setIsOpenSuccessAlert({
+          show: true,
+          message: "Transaction completed.",
+        });
+        setTimeout(() => {
+          setIsOpenSuccessAlert({
+            show: false,
+            message: "",
+          });
+        }, 2000);
       }
     } catch (error) {
-      console.log("Error while getting user available staked token", error);
+      if (error.code === "TRANSACTION_REPLACED") {
+        console.error("Transaction replaced:", error);
+      } else if (error.reason) {
+        setIsOpenErrorAlert({
+          show: true,
+          message: error.reason,
+        });
+        setTimeout(() => {
+          setIsOpenErrorAlert({
+            show: false,
+            message: "",
+          });
+        }, 2000);
+      } else if (error.data && error.data.message) {
+        console.error("Error message:", error.data.message);
+      } else {
+        console.error("An unknown error occurred:", error);
+      }
     }
   };
 
@@ -157,19 +292,16 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
   }
 
   const calculateReward = () => {
-    if(stakeTokenInputValue ==0){
-    return 0
+    if (stakeTokenInputValue == 0) {
+      return 0;
     }
-    const stakeValue = parseInt(stakeTokenInputValue)
+    const stakeValue = parseInt(stakeTokenInputValue);
     const apr = selectedDurationDetails.apy;
     const duration = selectedDurationDetails.duration * 86400;
     const oneYearInSeconds = 31536000;
 
     return (stakeValue * apr * duration) / (oneYearInSeconds * 100);
-   
   };
-
-
 
   return (
     <>
@@ -316,9 +448,11 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
                   disabled
                   value={userStakedInfo.amount}
                 />
-                
               </div>
-              <button className="bg-gradient-primary hover:bg-gradient-hover text-white w-44 py-3  rounded-lg cursor-pointer z-10" onClick={unStakeToken}>
+              <button
+                className="bg-gradient-primary hover:bg-gradient-hover text-white w-44 py-3  rounded-lg cursor-pointer z-10"
+                onClick={unStakeToken}
+              >
                 UnStake
               </button>
             </div>
@@ -334,6 +468,19 @@ export default function BoxStaking({ selectedToken, setSelectedToken, userStaked
             *APY is fixed
           </h3>
         </div>
+
+        <ProcessingAlert
+          message={isOpenLoadingAlert.message}
+          isOpenLoadingAlert={isOpenLoadingAlert.show}
+        />
+        <SuccessAlert
+          message={isOpenSuccessAlert.message}
+          isOpenSuccessAlert={isOpenSuccessAlert.show}
+        />
+        <ErrorAlert
+          message={isOpenErrorAlert.message}
+          isOpenErrorAlert={isOpenErrorAlert.show}
+        />
       </div>
     </>
   );
