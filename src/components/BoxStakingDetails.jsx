@@ -21,6 +21,13 @@ export default function BoxStakingDetails({ selectedToken , userStakedInfo }) {
         </span>
       </div>
 
+      <div className="w-full bg-s2 p-10 flex flex-col gap-4 rounded-7xl">
+        <h1 className="text-3xl font-bold">{userStakedInfo.stakeDuration} days</h1>
+        <span className="text-[#9CA0D2] text-xl font-bold">
+          Your lock duration
+        </span>
+      </div>
+
 
       
     </div>

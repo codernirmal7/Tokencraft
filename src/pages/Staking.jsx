@@ -11,7 +11,8 @@ export default function Staking() {
   const [userStakedInfo , setUserStakedInfo] = useState({
      amount : 0,
      totalRewardUserEarned : 0,
-     isStaked : false
+     isStaked : false,
+     stakeDuration : 0
   })
   
   useEffect(() => {
@@ -35,7 +36,8 @@ export default function Staking() {
         setUserStakedInfo({
           amount : data[0] === "0" ? 0 : ethers.formatEther(data[0]),
           totalRewardUserEarned : data[3] === "0" ? 0 : ethers.formatEther(data[3]),
-          isStaked : data[4]
+          isStaked : data[4],
+          stakeDuration : Number(data[2])/86400
         })
       } catch (error) {
         console.log("Error while getting user available staked token", error);
