@@ -30,7 +30,7 @@ export default function BoxStakingDetails({ selectedToken }) {
         }
         setUserStakedInfo({
           amount : data[0] === "0" ? 0 : ethers.formatEther(data[0]),
-          totalRewardUserEarned : data[3],
+          totalRewardUserEarned : data[3] === "0" ? 0 : ethers.formatEther(data[3]),
           isStaked : data[4]
         })
       } catch (error) {
