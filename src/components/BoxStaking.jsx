@@ -32,8 +32,8 @@ export default function BoxStaking({ selectedToken, setSelectedToken }) {
             data = null;
           }
         }
-       
-        setUserTokenInfo(data);
+        const tokenInEthers =  ethers.formatEther(data);
+        setUserTokenInfo(tokenInEthers);
       } catch (error) {
         console.log("Error while getting user available staked token", error);
       }
