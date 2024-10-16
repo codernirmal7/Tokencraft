@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { FaCaretDown, FaExchangeAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { ethers } from "ethers";
+import { ethers, parseEther, parseUnits } from "ethers";
+import ProcessingAlert from "../components/Alerts/ProcessingAlert";
+import SuccessAlert from "../components/Alerts/SuccessAlert";
+import ErrorAlert from "../components/Alerts/ErrorAlert";
 
 export default function SwapToken() {
   const [selectedToken, setSelectedToken] = useState("Craft Token");
@@ -11,6 +14,18 @@ export default function SwapToken() {
   const web3ContentInitialState = useSelector((state) => state.web3Content);
   const [tokenInputValue, setTokenInputValue] = useState(1);
   const [usdtInputValue, setUsdtInputValue] = useState(1);
+  const [isOpenLoadingAlert, setIsOpenLoadingAlert] = useState({
+    show: false,
+    message: "",
+  });
+  const [isOpenSuccessAlert, setIsOpenSuccessAlert] = useState({
+    show: false,
+    message: "",
+  });
+  const [isOpenErrorAlert, setIsOpenErrorAlert] = useState({
+    show: false,
+    message: "",
+  });
 
   useEffect(() => {
     const getUserToken = async () => {
@@ -41,9 +56,110 @@ export default function SwapToken() {
     web3ContentInitialState.accountInfo.craftTokenContract && getUserToken();
   }, [
     web3ContentInitialState.accountInfo?.craftTokenContract || null,
+    web3ContentInitialState.accountInfo?.dragonCraftTokenContract || null,
     web3ContentInitialState.accountInfo?.selectedAccount || null,
     selectedToken,
   ]);
+
+  async function swapToken() {
+    const tokenAmount = ethers.parseUnits(tokenInputValue.toString(), 18);
+
+    try {
+       
+      let allowance 
+      if(selectedToken === "Craft Token"){
+     
+        allowance=   await web3ContentInitialState.accountInfo.craftTokenContract.allowance(
+        web3ContentInitialState.accountInfo.selectedAccount,
+        web3ContentInitialState.accountInfo.tokenSwapContract.target
+    );
+      }else{
+        if(selectedToken === "Dragon Craft Token"){
+           
+          allowance=  await web3ContentInitialState.accountInfo.dragonCraftTokenContract.allowance(
+        web3ContentInitialState.accountInfo.selectedAccount,
+        web3ContentInitialState.accountInfo.tokenSwapContract.target
+    );
+        }
+      }
+
+        if (allowance < tokenAmount) {
+              let approveTransaction 
+            if(selectedToken === "Craft Token"){
+              approveTransaction = await web3ContentInitialState.accountInfo.craftTokenContract.approve(
+                web3ContentInitialState.accountInfo.tokenSwapContract.target,
+                tokenAmount
+            );
+            }else{
+              if(selectedToken === "Dragon Craft Token"){
+                approveTransaction = await web3ContentInitialState.accountInfo.dragonCraftTokenContract.approve(
+                  web3ContentInitialState.accountInfo.tokenSwapContract.target,
+                  tokenAmount
+              );
+              }
+            }
+            setIsOpenLoadingAlert({ show: true, message: "Approving tokens..." });
+            const approveWait = await approveTransaction.wait();
+
+            if (approveWait.status === 1) {
+                setIsOpenLoadingAlert({ show: false, message: "" });
+                setIsOpenSuccessAlert({ show: true, message: "Token approved successfully." });
+                setTimeout(() => {
+                    setIsOpenSuccessAlert({ show: false, message: "" });
+                }, 2000);
+
+                // Proceed with the swap
+                let transaction;
+                if (selectedToken === "Craft Token") {
+                    transaction = await web3ContentInitialState.accountInfo.tokenSwapContract.swapCraftToUsdtWithPermit(tokenAmount);
+                } else{
+                  if (selectedToken === "Dragon Craft Token") {
+                    transaction = await web3ContentInitialState.accountInfo.tokenSwapContract.swapDragonToUsdtWithPermit(tokenAmount);
+                }
+                }
+
+                setIsOpenLoadingAlert({ show: true, message: "Transaction is pending..." });
+                const receipt = await transaction.wait();
+                if (receipt.status === 1) {
+                    setIsOpenLoadingAlert({ show: false, message: "" });
+                    setIsOpenSuccessAlert({ show: true, message: "Transaction completed." });
+                    setTimeout(() => {
+                        setIsOpenSuccessAlert({ show: false, message: "" });
+                    }, 2000);
+                }
+            }
+        } else {
+            // Continue with the swap if allowance is sufficient
+            let transaction;
+            if (selectedToken === "Craft Token") {
+                transaction = await web3ContentInitialState.accountInfo.tokenSwapContract.swapCraftToUsdtWithPermit(tokenAmount);
+            } else{
+              if (selectedToken === "Dragon Craft Token") {
+                transaction = await web3ContentInitialState.accountInfo.tokenSwapContract.swapDragonToUsdtWithPermit(tokenAmount);
+            }
+            }
+
+            setIsOpenLoadingAlert({ show: true, message: "Transaction is pending..." });
+            const receipt = await transaction.wait();
+            if (receipt.status === 1) {
+                setIsOpenLoadingAlert({ show: false, message: "" });
+                setIsOpenSuccessAlert({ show: true, message: "Transaction completed." });
+                setTimeout(() => {
+                    setIsOpenSuccessAlert({ show: false, message: "" });
+                }, 2000);
+            }
+        }
+    } catch (error) {
+        const errorMessage = error.reason || error.message || "An unknown error occurred.";
+        setIsOpenErrorAlert({ show: true, message: errorMessage });
+        console.error("Error occurred during the transaction:", error);
+        setTimeout(() => {
+            setIsOpenErrorAlert({ show: false, message: "" });
+        }, 2000);
+    }
+}
+
+
 
   function onChangeStakeTokenInputValue(e) {
     setTokenInputValue(e.target.value);
@@ -147,9 +263,22 @@ export default function SwapToken() {
             <Button
               children={<>Swap</>}
               className="mt-10 w-full justify-center text-lg"
+              onClick={swapToken}
             />
           </div>
         </div>
+        <ProcessingAlert
+          message={isOpenLoadingAlert.message}
+          isOpenLoadingAlert={isOpenLoadingAlert.show}
+        />
+        <SuccessAlert
+          message={isOpenSuccessAlert.message}
+          isOpenSuccessAlert={isOpenSuccessAlert.show}
+        />
+        <ErrorAlert
+          message={isOpenErrorAlert.message}
+          isOpenErrorAlert={isOpenErrorAlert.show}
+        />
       </section>
     </>
   );

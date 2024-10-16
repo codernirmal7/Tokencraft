@@ -4,6 +4,9 @@ import craftTokenStakingContractAbi from "@contractAbi/CraftTokenStaking.json";
 import dragonCraftTokenStakingContractAbi from "@contractAbi/CraftTokenStaking.json";
 import craftTokenContractAbi from "@contractAbi/CarftToken.json";
 import dragonCraftTokenContractAbi from "@contractAbi/DragonCarftToken.json";
+import tokenSwapContractAbi from "@contractAbi/TokenSwap.json";
+import usdtTokenContractAbi from "@contractAbi/UsdtToken.json";
+
 
 const initialState = {
     accountInfo: {
@@ -15,6 +18,8 @@ const initialState = {
         craftTokenContract: null,
         dragonCraftTokenContract: null,
         stakingContract: null,
+        tokenSwapContract: null,
+        usdtTokenContract: null,
         signer: null,
       },
       isWalletConnected : false,
@@ -57,6 +62,11 @@ const connectWallet = createAsyncThunk(
         const dragonCraftTokenAddress =
           "0x1bFbcA7dC3C1b847C74433416a91d0Db98fD3198";
 
+        const tokenSwapContractAddress =
+          "0xC94bF82e151cd79179bE5A300fc0457139AC4064";
+
+          const usdtTokenContractAddress =
+          "0x60EDdBF1eD7F27aaF2ea17D2b1d1d9D97A764eF5";
 
   
         const craftTokenStakingContract = new Contract(
@@ -82,6 +92,18 @@ const connectWallet = createAsyncThunk(
             dragonCraftTokenContractAbi,
             signer
         );
+
+        const tokenSwapContract = new Contract(
+          tokenSwapContractAddress,
+          tokenSwapContractAbi,
+          signer
+      );
+
+      const usdtTokenContract = new Contract(
+        usdtTokenContractAddress,
+        usdtTokenContractAbi,
+        signer
+    );
   
         return {
           selectedAccount,
@@ -90,6 +112,8 @@ const connectWallet = createAsyncThunk(
           dragonCraftTokenStakingContract,
           craftTokenContract,
           dragonCraftTokenContract,
+          tokenSwapContract,
+          usdtTokenContract,
           signer,
           provider
         };
@@ -132,6 +156,8 @@ const web3ContentSlice = createSlice({
             dragonCraftTokenStakingContract: action.payload.dragonCraftTokenStakingContract,
             craftTokenContract: action.payload.craftTokenContract,
             dragonCraftTokenContract: action.payload.dragonCraftTokenContract,
+            tokenSwapContract: action.payload.tokenSwapContract,
+            usdtTokenContract : action.payload.usdtTokenContract,
             signer: action.payload.signer,
           };
           state.isWalletConnected = true
