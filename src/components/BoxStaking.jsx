@@ -84,47 +84,6 @@ export default function BoxStaking({
       .parseUnits(tokenApprovalInputValue, 18)
       .toString();
     try {
-      let transaction;
-      if (selectedToken === "Craft") {
-        transaction =
-          await web3ContentInitialState.accountInfo.craftTokenContract.approve(
-            web3ContentInitialState.accountInfo.craftTokenStakingContract
-              .target,
-            amountToSend
-          );
-      } else {
-        if (selectedToken === "Dragon Craft") {
-          transaction =
-            await web3ContentInitialState.accountInfo.dragonCraftTokenContract.approve(
-              web3ContentInitialState.accountInfo
-                .dragonCraftTokenStakingContract.target,
-              amountToSend
-            );
-        } else {
-          transaction = null;
-        }
-      }
-      setIsOpenLoadingAlert({
-        show: true,
-        message: "Transaction is pending...",
-      });
-      const receipt = await transaction.wait();
-      if (receipt.status == 1) {
-        setIsOpenLoadingAlert({
-          show: false,
-          message: "",
-        });
-        setIsOpenSuccessAlert({
-          show: true,
-          message: "Transaction completed.",
-        });
-        setTimeout(() => {
-          setIsOpenSuccessAlert({
-            show: false,
-            message: "",
-          });
-        }, 2000);
-      }
     } catch (error) {
       if (error.code === "TRANSACTION_REPLACED") {
         console.error("Transaction replaced:", error);
@@ -148,11 +107,11 @@ export default function BoxStaking({
   };
 
   const stakeToken = async () => {
-    if (stakeTokenInputValue <= 0) {
-      return null;
+    if(!stakeTokenInputValue > 0){
+      return;
     }
-    if (stakeTokenInputValue > userTokenInfo) {
-      setIsOpenErrorAlert({
+    if (stakeTokenInputValue > parseInt(userTokenInfo)) {
+       setIsOpenErrorAlert({
         show: true,
         message: "Insufficient token",
       });
@@ -162,49 +121,148 @@ export default function BoxStaking({
           message: "",
         });
       }, 2000);
+      return;
     }
-    const amountToSend = ethers.parseUnits(stakeTokenInputValue, 18).toString();
+    const amountToSend = ethers.parseUnits(stakeTokenInputValue.toString(), 18);
     try {
-      let transaction;
+      let allowance;
       if (selectedToken === "Craft") {
-        transaction =
-          await web3ContentInitialState.accountInfo.craftTokenStakingContract.stake(
-            amountToSend,
-            selectedDurationDetails.duration * 86400
+        allowance =
+          await web3ContentInitialState.accountInfo.craftTokenContract.allowance(
+            web3ContentInitialState.accountInfo.selectedAccount,
+            web3ContentInitialState.accountInfo.craftTokenStakingContract.target
           );
       } else {
         if (selectedToken === "Dragon Craft") {
+          allowance =
+            await web3ContentInitialState.accountInfo.dragonCraftTokenContract.allowance(
+              web3ContentInitialState.accountInfo.selectedAccount,
+              web3ContentInitialState.accountInfo
+                .dragonCraftTokenStakingContract.target
+            );
+        }
+      }
+
+      if (allowance < amountToSend) {
+        let approveTransaction;
+        if (selectedToken === "Craft") {
+          approveTransaction =
+            await web3ContentInitialState.accountInfo.craftTokenContract.approve(
+              web3ContentInitialState.accountInfo.craftTokenStakingContract
+                .target,
+              amountToSend
+            );
+        } else {
+          if (selectedToken === "Dragon Craft") {
+            approveTransaction =
+              await web3ContentInitialState.accountInfo.dragonCraftTokenContract.approve(
+                web3ContentInitialState.accountInfo
+                  .dragonCraftTokenStakingContract.target,
+                amountToSend
+              );
+          }
+        }
+
+        setIsOpenLoadingAlert({ show: true, message: "Approving tokens..." });
+        const approveWait = await approveTransaction.wait();
+
+        if (approveWait.status === 1) {
+          setIsOpenLoadingAlert({ show: false, message: "" });
+          setIsOpenSuccessAlert({
+            show: true,
+            message: "Token approved successfully.",
+          });
+          setTimeout(() => {
+            setIsOpenSuccessAlert({ show: false, message: "" });
+          }, 2000);
+
+          // Proceed with the swap
+          let transaction;
+          if (selectedToken === "Craft") {
+            transaction =
+              await web3ContentInitialState.accountInfo.craftTokenStakingContract.stake(
+                amountToSend,
+                selectedDurationDetails.duration * 86400
+              );
+          } else {
+            if (selectedToken === "Dragon Craft") {
+              transaction =
+                await web3ContentInitialState.accountInfo.dragonCraftTokenStakingContract.stake(
+                  amountToSend,
+                  selectedDurationDetails.duration * 86400
+                );
+            } else {
+              transaction = null;
+            }
+          }
+          setIsOpenLoadingAlert({
+            show: true,
+            message: "Transaction is pending...",
+          });
+          const receipt = await transaction.wait();
+          if (receipt.status == 1) {
+            setIsOpenLoadingAlert({
+              show: false,
+              message: "",
+            });
+            setIsOpenSuccessAlert({
+              show: true,
+              message: "Transaction completed.",
+            });
+            setTimeout(() => {
+              setIsOpenSuccessAlert({
+                show: false,
+                message: "",
+              });
+            }, 2000);
+          }
+        }
+      } else {
+        let transaction;
+        if (selectedToken === "Craft") {
           transaction =
-            await web3ContentInitialState.accountInfo.dragonCraftTokenStakingContract.stake(
+            await web3ContentInitialState.accountInfo.craftTokenStakingContract.stake(
               amountToSend,
               selectedDurationDetails.duration * 86400
             );
         } else {
-          transaction = null;
+          if (selectedToken === "Dragon Craft") {
+            transaction =
+              await web3ContentInitialState.accountInfo.dragonCraftTokenStakingContract.stake(
+                amountToSend,
+                selectedDurationDetails.duration * 86400
+              );
+          } else {
+            transaction = null;
+          }
         }
-      }
-      setIsOpenLoadingAlert({
-        show: true,
-        message: "Transaction is pending...",
-      });
-      const receipt = await transaction.wait();
-      if (receipt.status == 1) {
         setIsOpenLoadingAlert({
-          show: false,
-          message: "",
-        });
-        setIsOpenSuccessAlert({
           show: true,
-          message: "Transaction completed.",
+          message: "Transaction is pending...",
         });
-        setTimeout(() => {
-          setIsOpenSuccessAlert({
+        const receipt = await transaction.wait();
+        if (receipt.status == 1) {
+          setIsOpenLoadingAlert({
             show: false,
             message: "",
           });
-        }, 2000);
+          setIsOpenSuccessAlert({
+            show: true,
+            message: "Transaction completed.",
+          });
+          setTimeout(() => {
+            setIsOpenSuccessAlert({
+              show: false,
+              message: "",
+            });
+          }, 2000);
+        }
       }
     } catch (error) {
+      setIsOpenLoadingAlert({
+        show: false,
+        message: "",
+      });
       if (error.code === "TRANSACTION_REPLACED") {
         console.error("Transaction replaced:", error);
       } else if (error.reason) {
@@ -262,6 +320,7 @@ export default function BoxStaking({
         }, 2000);
       }
     } catch (error) {
+
       if (error.code === "TRANSACTION_REPLACED") {
         console.error("Transaction replaced:", error);
       } else if (error.reason) {
@@ -283,12 +342,9 @@ export default function BoxStaking({
     }
   };
 
-  function onChangeTokenApprovalInputValue(e) {
-    setTokenApprovalInputValue(e.target.value);
-  }
 
   function onChangeStakeTokenInputValue(e) {
-    setStakeTokenInputValue(e.target.value);
+      setStakeTokenInputValue(e.target.value)
   }
 
   const calculateReward = () => {
@@ -384,31 +440,9 @@ export default function BoxStaking({
           </div>
           <div className="w-full mt-7 flex flex-col gap-5">
             <span className="text-[#9CA0D2] font-bold text-[1.1rem]">
-              Balance : {userTokenInfo}
+              Balance : {parseInt(userTokenInfo)}
             </span>
-            <div className="flex gap-3">
-              <div className="w-full relative rounded-lg">
-                <input
-                  type="text"
-                  className="bg-s1 w-full bg-transparent border-2 border-gray-400 outline-none rounded-lg px-4 py-2 focus:border-primary"
-                  placeholder="0.0"
-                  value={tokenApprovalInputValue}
-                  onChange={onChangeTokenApprovalInputValue}
-                />
-                <button
-                  className="absolute right-0 w-14 h-11 rounded-lg bg-red-700"
-                  onClick={() => setTokenApprovalInputValue(userTokenInfo)}
-                >
-                  max
-                </button>
-              </div>
-              <button
-                className="bg-gradient-primary hover:bg-gradient-hover text-white py-3 w-44 rounded-lg cursor-pointer z-10"
-                onClick={approveToken}
-              >
-                Approve
-              </button>
-            </div>
+
             <div>
               <div className="flex gap-3">
                 <div className="w-full relative rounded-lg">

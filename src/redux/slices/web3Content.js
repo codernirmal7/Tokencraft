@@ -130,12 +130,7 @@ const web3ContentSlice = createSlice({
     name: "web3Content",
     initialState,
     reducers: {
-        handleAccountChange: (state, action) => {
-            state.accountInfo.selectedAccount = action.payload;
-          },
-          handleChainIdChange: (state, action) => {
-            state.accountInfo.chainId = action.payload;
-          },
+      
     },
     extraReducers: (builder) => {
         builder.addCase(connectWallet.pending, (state) => {
@@ -172,6 +167,6 @@ const web3ContentSlice = createSlice({
       },
 });
 
-export const { handleAccountChange, handleChainIdChange} = web3ContentSlice.actions;
+export const {} = web3ContentSlice.actions;
 export default web3ContentSlice.reducer;
 export {connectWallet}

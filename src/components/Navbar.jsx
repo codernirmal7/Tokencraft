@@ -5,8 +5,6 @@ import Button from "./Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
   connectWallet,
-  handleAccountChange,
-  handleChainIdChange,
 } from "../redux/slices/web3Content";
 import { FaCircleUser } from "react-icons/fa6";
 import { supportChaindId } from "../SupportChainId";
@@ -37,28 +35,6 @@ export default function Navbar({}) {
     };
   }, []);
 
-  useEffect(() => {
-    const handleAccountsChanged = (accounts) => {
-      //Check if account lenght is greater than 0 or not
-      if (accounts.length > 0) {
-        dispatch(handleAccountChange(accounts[0]));
-      }
-    };
-
-    const handleChainChanged = (chainId) => {
-      //Check if chain Id lenght is greater than 0 or not
-      dispatch(handleChainIdChange(parseInt(chainId, 16)));
-    };
-
-    window.ethereum.on("accountsChanged", handleAccountsChanged);
-    window.ethereum.on("chainChanged", handleChainChanged);
-
-    //CleanUp after work done
-    return () => {
-      window.ethereum.removeListener("accountChanged", handleAccountsChanged);
-      window.ethereum.removeListener("chainChanged", handleChainChanged);
-    };
-  }, [dispatch]);
 
 
   return (
