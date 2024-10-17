@@ -167,6 +167,5 @@ const web3ContentSlice = createSlice({
       },
 });
 
-export const {} = web3ContentSlice.actions;
 export default web3ContentSlice.reducer;
 export {connectWallet}

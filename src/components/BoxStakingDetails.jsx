@@ -1,6 +1,4 @@
-import { ethers } from "ethers";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 
 export default function BoxStakingDetails({ selectedToken , userStakedInfo }) {
   

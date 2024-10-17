@@ -64,47 +64,7 @@ export default function BoxStaking({
     selectedToken,
   ]);
 
-  const approveToken = async () => {
-    if (tokenApprovalInputValue <= 0) {
-      return null;
-    }
-    if (tokenApprovalInputValue > userTokenInfo) {
-      setIsOpenErrorAlert({
-        show: true,
-        message: "Insufficient token",
-      });
-      setTimeout(() => {
-        setIsOpenErrorAlert({
-          show: false,
-          message: "",
-        });
-      }, 2000);
-    }
-    const amountToSend = ethers
-      .parseUnits(tokenApprovalInputValue, 18)
-      .toString();
-    try {
-    } catch (error) {
-      if (error.code === "TRANSACTION_REPLACED") {
-        console.error("Transaction replaced:", error);
-      } else if (error.reason) {
-        setIsOpenErrorAlert({
-          show: true,
-          message: error.reason,
-        });
-        setTimeout(() => {
-          setIsOpenErrorAlert({
-            show: false,
-            message: "",
-          });
-        }, 2000);
-      } else if (error.data && error.data.message) {
-        console.error("Error message:", error.data.message);
-      } else {
-        console.error("An unknown error occurred:", error);
-      }
-    }
-  };
+ 
 
   const stakeToken = async () => {
     if(!stakeTokenInputValue > 0){
@@ -320,7 +280,10 @@ export default function BoxStaking({
         }, 2000);
       }
     } catch (error) {
-
+      setIsOpenLoadingAlert({
+        show: false,
+        message: "",
+      });
       if (error.code === "TRANSACTION_REPLACED") {
         console.error("Transaction replaced:", error);
       } else if (error.reason) {
