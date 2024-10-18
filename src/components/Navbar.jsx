@@ -8,6 +8,8 @@ import {
 } from "../redux/slices/web3Content";
 import { FaCircleUser } from "react-icons/fa6";
 import { supportChaindId } from "../SupportChainId";
+import {motion} from "framer-motion"
+
 export default function Navbar({}) {
   const [isOpen, setIsOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -37,14 +39,18 @@ export default function Navbar({}) {
   return (
     <>
       <header
+      
         className={`fixed top-0 left-0 z-50 w-full py-4  transition-all duration-500 max-lg:py-4 border-b border-white/[0.1] ${
           isOpen ? "" : "bg-opacity-90"
         } ${hasScrolled ? "pyI-2  bg-gray-900/[0.1] backdrop-blur-[8px]" : ""}`}
       >
-        <div className="w-full max-w-[1200px] flex mx-auto justify-between min-[900px]:justify-between items-center px-5 lg:px-10">
+        <motion.div
+         initial={{ opacity: 0, y: -50 }}
+         animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-[1200px] flex mx-auto justify-between min-[900px]:justify-between items-center px-5 lg:px-10 transition-all">
           <div>
             <a
-              href="/"
+              href="/get-started"
               className=" text-2xl min-[900px]:text-3xl select-none font-extrabold font-protest"
             >
               Token
@@ -156,7 +162,7 @@ export default function Navbar({}) {
               <div className="line"></div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </header>
       <NavbarMobile isOpen={isOpen} />
     </>

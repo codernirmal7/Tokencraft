@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import GetStarted from "./pages/GetStarted";
@@ -47,6 +47,10 @@ function App() {
           <Footer />
         </>
       ),
+    },
+    {
+      path: "*",
+      element: <Navigate to="/get-started" replace />,
     },
   ]);
 

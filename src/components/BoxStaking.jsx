@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import ProcessingAlert from "./Alerts/ProcessingAlert";
 import SuccessAlert from "./Alerts/SuccessAlert";
 import ErrorAlert from "./Alerts/ErrorAlert";
+import {motion} from "framer-motion"
+import { FadeUp } from "./animation/FadUp";
 
 export default function BoxStaking({
   selectedToken,
@@ -324,7 +326,11 @@ export default function BoxStaking({
 
   return (
     <>
-      <div>
+      <motion.div  
+       variants={FadeUp(0.3)}
+       initial="initial"
+       animate="animate" 
+      >
         <div className="flex gap-3">
           <button
             className={`${
@@ -478,7 +484,7 @@ export default function BoxStaking({
           message={isOpenErrorAlert.message}
           isOpenErrorAlert={isOpenErrorAlert.show}
         />
-      </div>
+      </motion.div>
     </>
   );
 }

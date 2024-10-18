@@ -3,6 +3,9 @@ import { Spotlight } from "./ui/Spotlight";
 import { FaArrowRight } from "react-icons/fa";
 import Button from "./Button";
 import PartnerSlider from "./PartnerSlider";
+import { motion } from "framer-motion";
+import { FadeUp } from "./animation/FadUp";
+
 
 export default function HeroSection() {
   return (
@@ -15,19 +18,32 @@ export default function HeroSection() {
 
         <div className="p-4 mx-auto relative z-10 h-[690px] md:h-[600px] md:pt-16  w-full  flex items-center justify-center flex-col-reverse min-[1060px]:flex-row min-[1060px]:justify-around min-[1145px]:px-10">
           <div className="flex flex-col  max-[1060px]:items-center">
-            <h1 className="max-w-xl min-[1145px]:max-w-5xl max-[1060px]:max-w-3xl  uppercase text-4xl space-x-3 lg:text-6xl max-[1060px]:text-center font-black bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50">
+            <motion.h1
+              variants={FadeUp(0.6)}
+              initial="initial"
+              animate="animate" 
+              className="max-w-xl min-[1145px]:max-w-5xl max-[1060px]:max-w-3xl  uppercase text-4xl space-x-3 lg:text-6xl max-[1060px]:text-center font-black bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50">
               Connect your{" "}
               <span className="bg-gradient-primary  leading-8 text-transparent bg-clip-text">
                 MetaMask wallet
               </span>
-            </h1>
+            </motion.h1>
 
-            <p className="mt-4 font-normal text-base max-[1060px]:text-center max-[1060px]:max-w-2xl text-neutral-400 max-w-lg">
+            <motion.p 
+             variants={FadeUp(0.8)}
+             initial="initial"
+             animate="animate"
+            className="mt-4 font-normal text-base max-[1060px]:text-center max-[1060px]:max-w-2xl text-neutral-400 max-w-lg">
               Connect your MetaMask wallet to easily stake tokens and explore
               exciting play-to-earn opportunities. Join us today and take your
               first step into the world of decentralized finance!
-            </p>
-            <div className="flex mt-4 gap-4 max-[1060px]:justify-center">
+            </motion.p>
+            <motion.div 
+            className="flex mt-4 gap-4 max-[1060px]:justify-center"  
+            variants={FadeUp(0.8)}
+            initial="initial"
+            animate="animate"
+            >
               <Button
                 children={
                   <>
@@ -37,7 +53,7 @@ export default function HeroSection() {
                 }
                 className="px-4 py-2"
               />
-            </div>
+            </motion.div>
             <div className="flex mt-16 gap-10">
               <button className="flex items-center gap-2 group/btn transition-all">
                 <div className="h-4 w-1 bg-white group-hover/btn:bg-primary"></div>
@@ -52,7 +68,7 @@ export default function HeroSection() {
             </div>
           </div>
           <div className="w-[800px] max-[1145px]:max-w-sm heroimage pointer-events-none">
-            <img
+            <motion.img
               src="hero.png" // Fallback image for browsers that don't support srcset
               srcSet="
     hersectionImage/image-320px.png 320w,
@@ -70,7 +86,10 @@ export default function HeroSection() {
     100vw
   "
               className="size-1230 max-lg:h-auto"
-              alt="hero"
+              alt=""
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: "easeInOut" }}
             />
           </div>
         </div>

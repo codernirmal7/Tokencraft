@@ -6,6 +6,8 @@ import { ethers } from "ethers";
 import ProcessingAlert from "../components/Alerts/ProcessingAlert";
 import SuccessAlert from "../components/Alerts/SuccessAlert";
 import ErrorAlert from "../components/Alerts/ErrorAlert";
+import {motion} from "framer-motion"
+import { FadeUp } from "../components/animation/FadUp";
 
 export default function SwapToken() {
   const [selectedToken, setSelectedToken] = useState("Craft Token");
@@ -216,7 +218,12 @@ export default function SwapToken() {
     <>
       <section className="w-full mt-[100px] pb-14 md:py-6 md:pb-14">
         <div className="max-w-[1200px] mx-auto w-full  flex justify-center px-3">
-          <div className="max-w-xl w-full bg-s2 p-10 flex flex-col rounded-7xl">
+          <motion.div 
+          className="max-w-xl w-full bg-s2 p-10 flex flex-col rounded-7xl"
+           variants={FadeUp(0.3)}
+           initial="initial"
+           animate="animate" 
+          >
             <h1 className="text-2xl md:text-3xl font-bold mt-2">Swap Token</h1>
             <div className="mt-7">
               <div className="flex justify-between items-center">
@@ -307,7 +314,7 @@ export default function SwapToken() {
               className="mt-10 w-full justify-center text-lg"
               onClick={swapToken}
             />
-          </div>
+          </motion.div>
         </div>
         <ProcessingAlert
           message={isOpenLoadingAlert.message}

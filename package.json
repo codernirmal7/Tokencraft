@@ -10,12 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-spring/web": "^9.7.5",
     "@react-three/drei": "^9.114.0",
     "@react-three/fiber": "^8.17.9",
     "@reduxjs/toolkit": "^2.2.8",
     "clsx": "^2.1.1",
     "ethers": "^6.13.4",
-    "framer-motion": "^11.11.1",
+    "framer-motion": "^11.11.9",
     "mini-svg-data-uri": "^1.4.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

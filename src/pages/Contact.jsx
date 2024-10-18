@@ -1,13 +1,19 @@
 import React from "react";
 import Button from "../components/Button";
 import {FaTelegramPlane } from "react-icons/fa";
+import {motion} from "framer-motion"
+import { FadeUp } from "../components/animation/FadUp";
 
 export default function Contact() {
   return (
     <>
-      <section className="w-full h-full mt-[100px] pb-14 md:py-6 md:pb-14">
+      <section className="w-full h-full mt-[100px] pb-14 md:py-14 md:pb-14">
         <div className="max-w-[1200px] mx-auto w-full h-full flex justify-center px-3">
-          <div className="max-w-xl w-full bg-s2 p-10 flex flex-col rounded-7xl">
+          <motion.div 
+          className="max-w-xl w-full bg-s2 p-10 flex flex-col rounded-7xl"  
+          variants={FadeUp(0.3)}
+           initial="initial"
+           animate="animate" >
             <div className="flex items-center gap-3">
               <span className="text-lg text-primary">Contact support </span>
               <div className="w-10 h-[2px] bg-primary"></div>
@@ -63,7 +69,7 @@ export default function Contact() {
                 className="mt-10 w-full justify-center text-xl"
               />
             </form>
-          </div>
+          </motion.div>
         </div>
       </section>
     </>
