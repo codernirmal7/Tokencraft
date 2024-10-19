@@ -7,7 +7,7 @@ import { FadeUp } from "../components/animation/FadUp";
 export default function Contact() {
   return (
     <>
-      <section className="w-full h-full mt-[100px] pb-14 md:py-14 md:pb-14">
+      <section className="w-full h-full mt-[100px] pb-14 md:py-3 md:pb-14">
         <div className="max-w-[1200px] mx-auto w-full h-full flex justify-center px-3">
           <motion.div 
           className="max-w-xl w-full bg-s2 p-10 flex flex-col rounded-7xl"  
