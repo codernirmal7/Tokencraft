@@ -8,6 +8,7 @@ import SuccessAlert from "../components/Alerts/SuccessAlert";
 import ErrorAlert from "../components/Alerts/ErrorAlert";
 import {motion} from "framer-motion"
 import { FadeUp } from "../components/animation/FadUp";
+import { supportChaindId } from "../SupportChainId";
 
 export default function SwapToken() {
   const [selectedToken, setSelectedToken] = useState("Craft Token");
@@ -311,8 +312,11 @@ export default function SwapToken() {
 
             <Button
               children={<>Swap</>}
-              className="mt-10 w-full justify-center text-lg"
+              className="mt-10 w-full justify-center text-lg disabled:bg-gradient-to-tl disabled:bg-primary/[0.7] disabled:cursor-not-allowed"
               onClick={swapToken}
+              disabled={
+                web3ContentInitialState.isWalletConnected && web3ContentInitialState.accountInfo.chainId == supportChaindId  ? false : true
+              }
             />
           </motion.div>
         </div>

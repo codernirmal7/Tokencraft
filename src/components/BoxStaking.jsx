@@ -6,6 +6,7 @@ import SuccessAlert from "./Alerts/SuccessAlert";
 import ErrorAlert from "./Alerts/ErrorAlert";
 import {motion} from "framer-motion"
 import { FadeUp } from "./animation/FadUp";
+import { supportChaindId } from "../SupportChainId";
 
 export default function BoxStaking({
   selectedToken,
@@ -431,8 +432,11 @@ export default function BoxStaking({
                   </button>
                 </div>
                 <button
-                  className="bg-gradient-primary hover:bg-gradient-hover text-white py-3 w-44 rounded-lg cursor-pointer z-10"
+                  className="bg-gradient-primary hover:bg-gradient-hover text-white py-3 w-44 rounded-lg cursor-pointer z-10 disabled:bg-gradient-to-tl disabled:bg-primary/[0.7] disabled:cursor-not-allowed"
                   onClick={stakeToken}
+                  disabled={
+                    web3ContentInitialState.isWalletConnected && web3ContentInitialState.accountInfo.chainId == supportChaindId  ? false : true
+                  }
                 >
                   Stake
                 </button>
@@ -447,14 +451,17 @@ export default function BoxStaking({
               <div className="w-full relative h-[1.20rem">
                 <input
                   type="text"
-                  className="bg-gray-700 w-full bg-transparent border-2 border-gray-400 outline-none rounded-lg px-4 py-2 focus:border-primary"
+                  className="bg-gray-700 w-full bg-transparent border-2 border-gray-400 outline-none rounded-lg px-4 py-2 focus:border-primary "
                   disabled
                   value={userStakedInfo.amount}
                 />
               </div>
               <button
-                className="bg-gradient-primary hover:bg-gradient-hover text-white w-44 py-3  rounded-lg cursor-pointer z-10"
+                className="bg-gradient-primary hover:bg-gradient-hover text-white w-44 py-3  rounded-lg cursor-pointer z-10 disabled:bg-gradient-to-tl disabled:bg-primary/[0.7] disabled:cursor-not-allowed"
                 onClick={unStakeToken}
+                disabled={
+                  web3ContentInitialState.isWalletConnected && web3ContentInitialState.accountInfo.chainId == supportChaindId  ? false : true
+                }
               >
                 UnStake
               </button>
@@ -472,7 +479,9 @@ export default function BoxStaking({
           </h3>
         </div>
 
-        <ProcessingAlert
+       
+      </motion.div>
+      <ProcessingAlert
           message={isOpenLoadingAlert.message}
           isOpenLoadingAlert={isOpenLoadingAlert.show}
         />
@@ -484,7 +493,6 @@ export default function BoxStaking({
           message={isOpenErrorAlert.message}
           isOpenErrorAlert={isOpenErrorAlert.show}
         />
-      </motion.div>
     </>
   );
 }
