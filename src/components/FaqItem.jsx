@@ -57,7 +57,7 @@ const FaqItem = ({ item, index, isBgColor , questionColor }) => {
 
       <SlideDown>
         {activeId === item.id && (
-          <div className={`py-3.5 text-gray-300 ${isBgColor ? "px-5" : ""}`}>{item.answer}</div>
+          <div className={`py-3.5 text-gray-300 max-w-lg w-full ${isBgColor ? "px-5" : ""}`}>{item.answer}</div>
         )}
       </SlideDown>
     </div>
