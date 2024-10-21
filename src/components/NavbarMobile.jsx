@@ -27,10 +27,10 @@ export default function NavbarMobile({ isOpen }) {
           </li>
           <li>
             <Link
-              to="/earn-token"
+              to="/get-faucet"
               className="text-gray-300 hover:text-primary font-medium text-base"
             >
-              Earn token
+              Get Faucet
             </Link>
           </li>
 
