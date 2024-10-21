@@ -5,6 +5,7 @@ import GetStarted from "./pages/GetStarted";
 import Staking from "./pages/Staking";
 import Contact from "./pages/Contact";
 import SwapToken from "./pages/SwapToken";
+import GetFaucet from "./pages/GetFaucet";
 
 function App() {
   const router = createBrowserRouter([
@@ -44,6 +45,16 @@ function App() {
         <>
           <Navbar />
           <SwapToken />
+          <Footer />
+        </>
+      ),
+    },
+    {
+      path: "/get-faucet",
+      element: (
+        <>
+          <Navbar />
+          <GetFaucet />
           <Footer />
         </>
       ),

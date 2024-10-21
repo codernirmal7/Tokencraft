@@ -5,7 +5,7 @@ export default function ErrorAlert({ message, isOpenErrorAlert }) {
   return (
     <>
       <div
-        className={`flex items-center p-4 mb-4 text-base rounded-lg bg-gray-800 text-red-400 fixed bottom-0 left-2 transition-all ${
+        className={`flex items-center p-4 mb-4 text-base rounded-lg bg-gray-800 text-red-400 fixed bottom-0 left-2 z-50 transition-all ${
           isOpenErrorAlert ? "scale-100" : "scale-0"
         }`}
         role="alert"

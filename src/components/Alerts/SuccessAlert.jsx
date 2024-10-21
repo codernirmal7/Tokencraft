@@ -5,7 +5,7 @@ export default function SuccessAlert({ message, isOpenSuccessAlert }) {
   return (
     <>
       <div
-        className={`flex items-center p-4 mb-4 text-base rounded-lg bg-gray-800 text-green-400 fixed bottom-0 left-2 transition-all ${
+        className={`flex items-center p-4 mb-4 text-base rounded-lg bg-gray-800 text-green-400 z-50 fixed bottom-0 left-2 transition-all ${
           isOpenSuccessAlert ? "scale-100" : "scale-0"
         }`}
         role="alert"
