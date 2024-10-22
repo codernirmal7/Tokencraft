@@ -24,7 +24,7 @@ export default function PrivacyPolicy({isOpenPrivacyPolicy, setIsOpenPrivacyPoli
         id='privacypolicy-modal'
         
       >
-        <div className="max-w-5xl mx-auto bg-gradient-to-br from-[#0e1434]/[0.5] to-[#1b275a]/[0.5]  backdrop-blur-md overflow-y-scroll h-full max-h-[40rem]">
+        <div className="max-w-5xl mx-auto bg-gradient-to-br from-s4/[0.3] to-s5/[0.3]  backdrop-blur-lg overflow-y-scroll h-full max-h-[40rem]">
           <div className=" w-full text-start border-b border-primary/[0.4] flex justify-between items-center p-5 ">
             <h1 className="text-3xl font-bold text-primary">Privacy Policy</h1>
             <FaXmark onClick={() => setIsOpenPrivacyPolicy(false)} className="cursor-pointer"/>
